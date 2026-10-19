@@ -10,7 +10,7 @@ import { audiences, craft, faqs, offer, perks, site, steps } from "@/lib/site";
 
 export default function Home() {
   const jsonLd = buildJsonLd();
-  const { heroPour, grinding } = videos;
+  const { grinding } = videos;
 
   return (
     <>
@@ -42,7 +42,15 @@ export default function Home() {
       <main id="main">
         {/* ── Hero ───────────────────────────────── */}
         <section className="hero" id="waitlist" aria-labelledby="hero-title">
-          <div className="container hero__grid">
+          <Image
+            className="hero__bg"
+            src={mediaSrc(images.heroCafe.file)}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+          />
+          <div className="container hero__inner">
             <div className="hero__copy">
               <p className="kicker">Good coffee<br />Better builders</p>
               <h1 id="hero-title">
@@ -53,19 +61,6 @@ export default function Home() {
                 </span>
               </h1>
               <WaitlistForm source="hero" tone="dark" />
-            </div>
-
-            <div className="hero__media">
-              <LoopVideo
-                className="hero__video"
-                src={mediaSrc(heroPour.file)}
-                poster={mediaSrc(heroPour.poster)}
-                label="Espresso pouring from a coffee machine into a cup"
-              />
-              <div className="offer-card">
-                <span className="offer-card__big">1 month free</span>
-                <span className="offer-card__small">for everyone on the waitlist</span>
-              </div>
             </div>
           </div>
         </section>

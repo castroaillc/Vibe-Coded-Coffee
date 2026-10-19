@@ -125,8 +125,8 @@ file from `public/media/`, and run `pnpm media`. When you have your own shop pho
 `public/media/` with the same file names.
 
 Sources (free for commercial use, no attribution required):
-- Espresso pour (hero video) and beans pouring into a grinder: Mixkit free license, https://mixkit.co/license/
-- Photos (espresso extraction, latte art pour, Chemex pour-over, builder at a cafe, grinder hopper): Unsplash License, https://unsplash.com/license
+- Beans pouring into a grinder (video): Mixkit free license, https://mixkit.co/license/
+- Photos (hero café at night, espresso extraction, latte art pour, Chemex pour-over, builder at a cafe, grinder hopper): Unsplash License, https://unsplash.com/license
   - The exact source page for each file is in `media.json` under `source`.
 
 ## Files

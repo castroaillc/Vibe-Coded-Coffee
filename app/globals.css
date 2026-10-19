@@ -134,62 +134,46 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 @media (max-width: 820px) { .nav__links { display: none; } }
 @media (max-width: 420px) { .nav__logo img { height: 22px; } .nav .btn--sm { padding: 0 14px; } }
 
-/* ── Hero ────────────────────────────────────── */
+/* ── Hero: full-width photo, navy fade from the left ── */
 .hero {
-  position: relative; overflow: hidden; color: var(--white);
-  padding: clamp(48px, 7vw, 96px) 0 clamp(72px, 8vw, 112px);
-  background:
-    radial-gradient(900px 600px at 85% 30%, rgba(59, 130, 246, 0.16), transparent 70%),
-    var(--midnight);
+  position: relative; isolation: isolate; overflow: hidden; color: var(--white);
+  min-height: min(860px, calc(100svh - 72px));
+  display: flex; align-items: center;
+  padding: clamp(72px, 9vw, 120px) 0 clamp(80px, 9vw, 128px);
+  background: var(--midnight);
   scroll-margin-top: 72px;
 }
-.hero__grid {
-  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  gap: clamp(40px, 6vw, 96px); align-items: center;
+.hero__bg { object-fit: cover; object-position: 62% center; z-index: -2; }
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(10, 31, 51, 0.96) 0%, rgba(10, 31, 51, 0.86) 30%, rgba(10, 31, 51, 0.3) 58%, rgba(10, 31, 51, 0) 85%),
+    linear-gradient(180deg, rgba(10, 31, 51, 0.3) 0%, transparent 20%, transparent 72%, rgba(10, 31, 51, 0.8) 100%);
 }
+.hero__inner { position: relative; }
+.hero__copy { max-width: 640px; }
 .hero__copy .kicker { margin-bottom: 26px; }
 .hero h1 { font-weight: inherit; }
 .hero__title {
   display: block;
   font-family: var(--font-display-stack); font-weight: 300;
-  font-size: clamp(44px, 6.4vw, 84px); line-height: 1; letter-spacing: 0.035em;
+  font-size: clamp(44px, 6.4vw, 88px); line-height: 1; letter-spacing: 0.035em;
   text-transform: uppercase; text-wrap: balance;
+  text-shadow: 0 2px 30px rgba(10, 31, 51, 0.5);
 }
 .hero__sub {
   display: block; margin-top: 26px; max-width: 32em;
   font-family: var(--font-body-stack); font-size: clamp(17px, 1.5vw, 20px); font-weight: 400;
-  line-height: 1.6; color: #c6cfdb; letter-spacing: 0;
+  line-height: 1.6; color: #d3dae4; letter-spacing: 0;
 }
+.hero .waitlist__fields { background: rgba(10, 31, 51, 0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 
-.hero__media { position: relative; justify-self: end; width: 100%; max-width: 440px; }
-.hero__video {
-  aspect-ratio: 4 / 5; border-radius: 28px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 50px 120px -40px rgba(0, 0, 0, 0.8),
-    0 30px 90px -50px rgba(59, 130, 246, 0.6);
-}
-.hero__video::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, transparent 55%, rgba(10, 31, 51, 0.55));
-}
-.offer-card {
-  position: absolute; left: -48px; bottom: 40px; z-index: 2;
-  display: grid; gap: 2px; padding: 18px 24px 18px 22px;
-  background: var(--cream); color: var(--midnight);
-  border-radius: 16px; border-left: 4px solid var(--electric);
-  box-shadow: 0 24px 60px -18px rgba(0, 0, 0, 0.6);
-}
-.offer-card__big {
-  font-family: var(--font-display-stack); font-weight: 400; font-size: 26px; line-height: 1.1;
-  letter-spacing: 0.06em; text-transform: uppercase;
-}
-.offer-card__small { font-size: 14px; color: var(--slate); }
-
-@media (max-width: 900px) {
-  .hero__grid { grid-template-columns: 1fr; }
-  .hero__media { justify-self: stretch; max-width: none; order: 2; }
-  .hero__video { aspect-ratio: 4 / 3; border-radius: 22px; }
-  .offer-card { left: 16px; bottom: 16px; padding: 14px 18px 14px 16px; }
-  .offer-card__big { font-size: 20px; }
+@media (max-width: 820px) {
+  .hero { min-height: 0; align-items: flex-end; padding-top: 220px; }
+  .hero__bg { object-position: 72% top; height: 60% !important; }
+  .hero::before {
+    background: linear-gradient(180deg, rgba(10, 31, 51, 0.15) 0%, rgba(10, 31, 51, 0.45) 22%, rgba(10, 31, 51, 0.9) 48%, rgba(10, 31, 51, 0.97) 100%);
+  }
 }
 
 /* ── Looping video ───────────────────────────── */
