@@ -1,0 +1,57 @@
+{
+  "videos": {
+    "heroPour": {
+      "file": "espresso-pour.mp4",
+      "url": "https://assets.mixkit.co/videos/41865/41865-720.mp4",
+      "poster": "espresso-pour-poster.jpg",
+      "posterUrl": "https://assets.mixkit.co/videos/41865/41865-thumb-720-0.jpg",
+      "width": 720, "height": 1280,
+      "source": "https://mixkit.co/free-stock-video/cup-being-filled-with-coffee-in-a-coffee-machine-41865/"
+    },
+    "grinding": {
+      "file": "beans-grinding.mp4",
+      "url": "https://assets.mixkit.co/videos/4985/4985-720.mp4",
+      "poster": "beans-grinding-poster.jpg",
+      "posterUrl": "https://assets.mixkit.co/videos/4985/4985-thumb-720-0.jpg",
+      "width": 1280, "height": 720,
+      "source": "https://mixkit.co/free-stock-video/coffee-beans-falling-into-a-coffee-pot-4985/"
+    }
+  },
+  "images": {
+    "latteArt": {
+      "file": "latte-art-pour.jpg",
+      "url": "https://images.unsplash.com/photo-1547240089-0b75465f8e80?auto=format&fit=crop&q=75&w=1200&h=1500",
+      "width": 1200, "height": 1500,
+      "alt": "Barista pouring steamed milk into a cappuccino, forming latte art",
+      "source": "https://unsplash.com/photos/milk-being-poured-on-cappuccino-Lmz2D7ZLhJM"
+    },
+    "espresso": {
+      "file": "espresso-extraction.jpg",
+      "url": "https://images.unsplash.com/photo-1616388761741-a5936c6f61f6?auto=format&fit=crop&q=75&w=1200&h=1500",
+      "width": 1200, "height": 1500,
+      "alt": "Espresso streaming from a portafilter",
+      "source": "https://unsplash.com/photos/espresso-dripping-from-metal-portafilter-RZJRWMnd0DM"
+    },
+    "pourOver": {
+      "file": "chemex-pour-over.jpg",
+      "url": "https://images.unsplash.com/photo-1541469406036-71229832e06e?auto=format&fit=crop&q=75&w=1600&h=1200",
+      "width": 1600, "height": 1200,
+      "alt": "Pour-over coffee brewing through a Chemex filter",
+      "source": "https://unsplash.com/photos/person-pouring-water-in-clear-glass-jar-XP5zW2ngk9w"
+    },
+    "builder": {
+      "file": "builder-at-work.jpg",
+      "url": "https://images.unsplash.com/photo-1545184180-25d471fe75eb?auto=format&fit=crop&q=75&w=1400&h=1600",
+      "width": 1400, "height": 1600,
+      "alt": "A builder working on a laptop with a cup of coffee at a cafe counter",
+      "source": "https://unsplash.com/photos/man-sitting-while-having-coffee-and-using-laptop-PFC2fY9LE_g"
+    },
+    "beans": {
+      "file": "beans-hopper.jpg",
+      "url": "https://images.unsplash.com/photo-1733924314370-616c4a5433b1?auto=format&fit=crop&q=75&w=1600&h=1000",
+      "width": 1600, "height": 1000,
+      "alt": "Freshly roasted coffee beans in a grinder hopper",
+      "source": "https://unsplash.com/photos/a-coffee-grinder-filled-with-lots-of-coffee-beans-BniI6fQzM40"
+    }
+  }
+}
