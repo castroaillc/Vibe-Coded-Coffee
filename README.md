@@ -1,6 +1,7 @@
 # Vibe Coded Coffee — website + ordering app
 
-The pre-launch landing page (`/`) and the members' ordering app (`/order`), in one Next.js project.
+The B2B landing page (`/`: coffee catering for tech events, with a "Book us for your event" form and a
+"storefront coming soon" waitlist) and the members' ordering app (`/order`), in one Next.js project.
 
 ## Run it on your Mac
 
@@ -20,7 +21,7 @@ The first `pnpm dev` also downloads the stock photos and videos into `public/med
 
 ## Edit the text
 
-All copy — location, offer, perks, steps and FAQ — is in **`lib/site.ts`**.
+All copy — location, catering offer, what's included, booking steps, event types, storefront offer and FAQ — is in **`lib/site.ts`**.
 The page, the Google structured data and `/llms.txt` all update from that one file.
 
 ## Go live (Vercel is easiest)
@@ -57,13 +58,30 @@ on their home screen, and from then on it opens full-screen like a native app.
 "Add to Home Screen" is one tap on Android and desktop Chrome/Edge. iPhone Safari doesn't allow apps
 to trigger it, so the app shows the two steps (Share → Add to Home Screen) instead.
 
+## Admin: Coffee OS (/admin)
+
+The back office for the catering business, made for an iPad or laptop. Sign in at `/admin` with an emailed code;
+only emails in `ADMIN_EMAILS` get in.
+
+- **Dashboard:** open leads, booked events coming up (with how much coffee to bring), money still owed, POS sales today.
+- **Pipeline:** every catering job as a card in Lead → Quoted → Booked → Completed (or Lost). "Book us for your event"
+  requests from the website land here as leads automatically, with the client created or matched by email.
+- **Event page:** edit details, quote and payments, one-tap status, notes, coffee to bring, POS sales at that event.
+- **Clients:** search, contact details, booked value, what's owed, every event and a notes log.
+- **POS:** tap items, pick the event, record card / cash / comp. Take card payments on a Stripe reader or Tap to Pay in
+  the Stripe Dashboard app, then record them here. "Edit menu" changes items and prices.
+- **Brew planner:** the coffee and cost-per-cup calculators from coffee-app (math in `lib/brew.ts`).
+
+Tables: `client`, `catering_event`, `client_note`, `product`, `sale` (in `lib/db/schema.ts`). Server actions are in
+`app/admin/actions.ts`, queries in `lib/admin/data.ts`.
+
 ## Backend (Better Auth · Neon · Resend · Stripe)
 
 | Piece | What it does | Where |
 |---|---|---|
-| **Neon Postgres + Drizzle** | members, favorites, orders, points ledger, events, RSVPs, waitlist | `lib/db/schema.ts` |
+| **Neon Postgres + Drizzle** | booking requests, members, favorites, orders, points ledger, events, RSVPs, waitlist | `lib/db/schema.ts` |
 | **Better Auth** | sign in with a 6-digit email code; 90-day sessions on the phone | `lib/auth.ts`, `/api/auth/*` |
-| **Resend** | sign-in codes, waitlist welcome, "membership active" emails | `lib/email.ts` |
+| **Resend** | booking alerts + confirmations, sign-in codes, waitlist welcome, "membership active" emails | `lib/email.ts` |
 | **Stripe** (Better Auth plugin) | the membership subscription, 30-day free trial = free first month | `lib/auth.ts` |
 
 Sign-in uses an emailed **code**, not a magic link: on iPhone a link opens Safari instead of the
@@ -136,5 +154,8 @@ Sources (free for commercial use, no attribution required):
 - `components/WaitlistForm.tsx` — the sign-up form
 - `components/LoopVideo.tsx` — muted looping video with a pause button (stays still for people who turn off motion)
 - `scripts/download-media.mjs` — downloads the photos/videos in `media.json`
-- `app/api/waitlist/route.ts` — receives sign-ups
+- `components/BookingForm.tsx` — the "Book us for your event" form
+- `app/api/booking/route.ts` — receives booking requests (saved in the `booking_request` table; emails you at
+  `BOOKING_NOTIFY_EMAIL` with Reply-To set to the organizer, and sends them a confirmation)
+- `app/api/waitlist/route.ts` — receives storefront waitlist sign-ups
 - `public/brand/` — logo files

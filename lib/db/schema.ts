@@ -176,3 +176,109 @@ export const waitlist = pgTable("waitlist", {
   source: text("source"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+/** "Book us for your event" requests from event organizers (B2B catering). status: new → quoted → booked | declined. */
+export const bookingRequest = pgTable(
+  "booking_request",
+  {
+    id: text("id").primaryKey(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    company: text("company"),
+    phone: text("phone"),
+    eventType: text("event_type"),
+    eventDate: text("event_date").notNull(), // YYYY-MM-DD
+    headcount: integer("headcount").notNull(),
+    location: text("location").notNull(),
+    notes: text("notes"),
+    status: text("status", { enum: ["new", "quoted", "booked", "declined"] }).notNull().default("new"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("booking_event_date_idx").on(t.eventDate)],
+);
+
+// ─────────────────────────────────────────────────────────────
+//  Admin: CRM (clients, catering events, notes) and POS
+//  (products, sales). Money is in cents.
+// ─────────────────────────────────────────────────────────────
+
+export const EVENT_STATUSES = ["lead", "quoted", "booked", "completed", "lost"] as const;
+export const PAYMENT_STATUSES = ["unpaid", "deposit", "paid"] as const;
+export const PAYMENT_METHODS = ["card", "cash", "comp"] as const;
+
+/** A company or person who books us. */
+export const client = pgTable(
+  "client",
+  {
+    id: text("id").primaryKey(),
+    company: text("company").notNull().default(""),
+    contactName: text("contact_name").notNull().default(""),
+    email: text("email").notNull().default(""),
+    phone: text("phone").notNull().default(""),
+    notes: text("notes").notNull().default(""),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("client_email_idx").on(t.email)],
+);
+
+/** A catering job, from first inquiry (lead) to completed. */
+export const cateringEvent = pgTable(
+  "catering_event",
+  {
+    id: text("id").primaryKey(),
+    clientId: text("client_id").notNull().references(() => client.id, { onDelete: "restrict" }),
+    title: text("title").notNull(),
+    eventType: text("event_type").notNull().default(""),
+    date: text("date").notNull(), // YYYY-MM-DD
+    startTime: text("start_time").notNull().default(""), // HH:MM
+    location: text("location").notNull().default(""),
+    headcount: integer("headcount").notNull().default(0),
+    status: text("status", { enum: EVENT_STATUSES }).notNull().default("lead"),
+    quoteCents: integer("quote_cents").notNull().default(0),
+    paidCents: integer("paid_cents").notNull().default(0),
+    paymentStatus: text("payment_status", { enum: PAYMENT_STATUSES }).notNull().default("unpaid"),
+    notes: text("notes").notNull().default(""),
+    source: text("source", { enum: ["manual", "website"] }).notNull().default("manual"),
+    bookingRequestId: text("booking_request_id"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("catering_event_client_idx").on(t.clientId), index("catering_event_date_idx").on(t.date)],
+);
+
+/** CRM activity log: calls, emails, follow-ups. */
+export const clientNote = pgTable(
+  "client_note",
+  {
+    id: text("id").primaryKey(),
+    clientId: text("client_id").notNull().references(() => client.id, { onDelete: "cascade" }),
+    eventId: text("event_id").references(() => cateringEvent.id, { onDelete: "set null" }),
+    text: text("text").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("client_note_client_idx").on(t.clientId)],
+);
+
+/** What the POS sells. */
+export const product = pgTable("product", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  priceCents: integer("price_cents").notNull(),
+  active: boolean("active").notNull().default(true),
+  sort: integer("sort").notNull().default(0),
+});
+
+export type SaleItem = { productId: string | null; name: string; qty: number; unitCents: number };
+
+/** One POS checkout. Card payments are taken on the Stripe reader (or Tap to Pay) and recorded here. */
+export const sale = pgTable(
+  "sale",
+  {
+    id: text("id").primaryKey(),
+    eventId: text("event_id").references(() => cateringEvent.id, { onDelete: "set null" }),
+    items: jsonb("items").$type<SaleItem[]>().notNull(),
+    totalCents: integer("total_cents").notNull(),
+    method: text("method", { enum: PAYMENT_METHODS }).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("sale_created_idx").on(t.createdAt)],
+);

@@ -1,12 +1,11 @@
 import Image from "next/image";
 import { Icon } from "@/components/Icons";
 import { LoopVideo } from "@/components/LoopVideo";
-import { Spinner } from "@/components/Spinner";
+import { BookingForm } from "@/components/BookingForm";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { images, mediaSrc, videos } from "@/lib/media";
-import { allVerbs, formatPrice, menu } from "@/lib/menu";
 import { buildJsonLd } from "@/lib/schema";
-import { audiences, craft, faqs, offer, perks, site, steps } from "@/lib/site";
+import { audiences, bookingSteps, catering, craft, faqs, offer, services, site } from "@/lib/site";
 
 export default function Home() {
   const jsonLd = buildJsonLd();
@@ -25,23 +24,23 @@ export default function Home() {
       <header className="nav">
         <div className="container nav__inner">
           <a href="/" className="nav__logo" aria-label={`${site.name} home`}>
-            <Image src="/brand/logo-oneline-on-dark.svg" alt={site.name} width={238} height={34} priority unoptimized />
+            <Image src="/brand/logo-oneline-on-dark.svg" alt={site.name} width={231} height={34} priority unoptimized />
           </a>
           <nav aria-label="Main">
             <ul className="nav__links">
               <li><a href="#craft">The coffee</a></li>
-              <li><a href="#menu">Menu</a></li>
-              <li><a href="#membership">Membership</a></li>
+              <li><a href="#services">What&apos;s included</a></li>
+              <li><a href="#how-it-works">How it works</a></li>
               <li><a href="#faq">FAQ</a></li>
             </ul>
           </nav>
-          <a href="#waitlist" className="btn btn--ghost btn--sm">Join the waitlist</a>
+          <a href="#book" className="btn btn--ghost btn--sm">Book us</a>
         </div>
       </header>
 
       <main id="main">
         {/* ── Hero ───────────────────────────────── */}
-        <section className="hero" id="waitlist" aria-labelledby="hero-title">
+        <section className="hero" id="top" aria-labelledby="hero-title">
           <Image
             className="hero__bg"
             src={mediaSrc(images.heroCafe.file)}
@@ -56,11 +55,14 @@ export default function Home() {
               <h1 id="hero-title">
                 <span className="hero__title">Fuel for what&apos;s next</span>
                 <span className="hero__sub">
-                  A specialty coffee shop and workspace for builders, opening soon in {site.locationLabel}. Join the
-                  waitlist and your first month of the Vibe Coded membership is free.
+                  Coffee catering for tech events in {site.serviceArea}. Freshly brewed drip coffee for your hackathon,
+                  meetup, demo day or offsite. We set up, keep it flowing and clean up.
                 </span>
               </h1>
-              <WaitlistForm source="hero" tone="dark" />
+              <div className="hero__actions">
+                <a href="#book" className="btn">Book us for your event <Icon name="arrow" size={16} /></a>
+                <a href="#waitlist" className="btn btn--ghost">Storefront coming soon</a>
+              </div>
             </div>
           </div>
         </section>
@@ -70,11 +72,11 @@ export default function Home() {
           <div className="container">
             <h2 id="facts-title" className="sr-only">Vibe Coded Coffee at a glance</h2>
             <dl className="facts__list">
-              <div><dt>What</dt><dd>Specialty coffee shop &amp; workspace</dd></div>
-              <div><dt>Where</dt><dd>{site.locationLabel}</dd></div>
-              <div><dt>When</dt><dd>Opening soon</dd></div>
-              <div><dt>The offer</dt><dd>{offer.short} for waitlist members</dd></div>
-              <div><dt>Cost to join</dt><dd>Free, no card needed</dd></div>
+              <div><dt>What</dt><dd>Drip coffee catering for tech events</dd></div>
+              <div><dt>Where</dt><dd>Across {site.serviceArea}</dd></div>
+              <div><dt>For</dt><dd>Hackathons, meetups, demo days, offsites</dd></div>
+              <div><dt>Pricing</dt><dd>Custom quote within one business day</dd></div>
+              <div><dt>Coming soon</dt><dd>Our own storefront, {offer.short.toLowerCase()}</dd></div>
             </dl>
           </div>
         </section>
@@ -85,7 +87,7 @@ export default function Home() {
             <div className="split-head">
               <h2 id="craft-title" className="h2">From bean to cup</h2>
               <p className="lede">
-                Small-batch beans, ground to order and brewed by people who sweat the details, the same way you do
+                Small-batch beans, freshly ground and brewed by people who sweat the details, the same way you do
                 with what you ship.
               </p>
             </div>
@@ -128,64 +130,19 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Menu ───────────────────────────────── */}
-        <section className="menu" id="menu" aria-labelledby="menu-title">
-          <div className="container">
-            <div className="menu__head">
-              <div>
-                <h2 id="menu-title" className="h2 h2--light">The menu</h2>
-                <Spinner verbs={allVerbs} />
-              </div>
-              <p className="lede lede--light">
-                Every drink is named for what you&apos;re doing while we make it. Latte art comes in{" "}
-                <code>{"{ }"}</code>, <code>{"</>"}</code> and the occasional semicolon.
-              </p>
-            </div>
 
-            <div className="menu__board">
-              <p className="menu__bar" aria-hidden="true">~/vibe-coded/menu</p>
-              <div className="menu__cols">
-                {menu.map((section) => (
-                  <section key={section.id} className="menu__col" aria-labelledby={`menu-${section.id}`}>
-                    <h3 id={`menu-${section.id}`} className="menu__title">{section.title}</h3>
-                    <p className="menu__blurb">{section.blurb}</p>
-                    <ul>
-                      {section.items.map((item) => (
-                        <li key={item.verb} className="menu__item">
-                          <div className="menu__line">
-                            <span className="menu__verb">
-                              <span className="menu__glyph" aria-hidden="true">✻</span>
-                              {item.verb}…
-                            </span>
-                            <span className="menu__dots" aria-hidden="true" />
-                            <span className="menu__price">${formatPrice(item.price)}</span>
-                          </div>
-                          <p className="menu__desc">
-                            <span className="menu__name">{item.name}.</span> {item.note}
-                          </p>
-                        </li>
-                      ))}
-                    </ul>
-                  </section>
-                ))}
-              </div>
-            </div>
-            <p className="menu__foot">Oat, almond or whole milk at no extra charge. Menu and prices may change before opening day.</p>
-          </div>
-        </section>
-
-        {/* ── Membership ─────────────────────────── */}
-        <section className="section section--cream" id="membership" aria-labelledby="membership-title">
+        {/* ── What's included ─────────────────────── */}
+        <section className="section section--cream" id="services" aria-labelledby="services-title">
           <div className="container">
             <div className="split-head">
-              <h2 id="membership-title" className="h2">What&apos;s in the membership</h2>
+              <h2 id="services-title" className="h2">What&apos;s included</h2>
               <p className="lede">
-                One monthly membership for your coffee, your workspace and your people. Join the waitlist and the first
-                month is on us.
+                A full coffee station for your event, staffed and stocked. You bring the builders, we bring the
+                coffee.
               </p>
             </div>
             <ul className="perks">
-              {perks.map((p) => (
+              {services.map((p) => (
                 <li key={p.title} className="perk">
                   <span className="perk__icon"><Icon name={p.icon} size={30} /></span>
                   <h3>{p.title}</h3>
@@ -209,13 +166,13 @@ export default function Home() {
               />
             </div>
             <div className="space__copy">
-              <p className="kicker kicker--blue">Opening soon</p>
-              <h2 id="space-title" className="h2 h2--light">A space for curious minds</h2>
+              <p className="kicker kicker--blue">Built for builders</p>
+              <h2 id="space-title" className="h2 h2--light">Coffee that keeps up with your event</h2>
               <p className="lede lede--light">
-                Long tables, good light and power at every seat. Come in for the coffee, stay for the people building
-                next to you.
+                Early keynotes, all-night hackathons and demo days that run long. We keep the coffee fresh from the
+                first talk to the last demo.
               </p>
-              <ul className="pills" aria-label="Who it's for">
+              <ul className="pills" aria-label="Events we cater">
                 {audiences.map((a) => <li key={a}>{a}</li>)}
               </ul>
             </div>
@@ -225,9 +182,9 @@ export default function Home() {
         {/* ── How it works ───────────────────────── */}
         <section className="section section--white" id="how-it-works" aria-labelledby="how-title">
           <div className="container">
-            <h2 id="how-title" className="h2">How to get your free month</h2>
+            <h2 id="how-title" className="h2">How booking works</h2>
             <ol className="steps">
-              {steps.map((s, i) => (
+              {bookingSteps.map((s, i) => (
                 <li key={s.title} className="step">
                   <span className="step__num" aria-hidden="true">{i + 1}</span>
                   <h3>{s.title}</h3>
@@ -238,8 +195,23 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ── Book us ────────────────────────────── */}
+        <section className="section section--cream" id="book" aria-labelledby="book-title">
+          <div className="container book">
+            <div>
+              <p className="kicker kicker--blue">Book us</p>
+              <h2 id="book-title" className="h2">Book us for your event</h2>
+              <p className="lede">{catering.summary}</p>
+              <p className="book__contact">
+                Prefer email? Write to <a href={`mailto:${site.email}`}>{site.email}</a>
+              </p>
+            </div>
+            <BookingForm />
+          </div>
+        </section>
+
         {/* ── FAQ ────────────────────────────────── */}
-        <section className="section section--cream" id="faq" aria-labelledby="faq-title">
+        <section className="section section--white" id="faq" aria-labelledby="faq-title">
           <div className="container faq-layout">
             <div>
               <h2 id="faq-title" className="h2">Questions</h2>
@@ -258,8 +230,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Final CTA ──────────────────────────── */}
-        <section className="cta" aria-labelledby="cta-title">
+        {/* ── Storefront coming soon ──────────────── */}
+        <section className="cta soon" id="waitlist" aria-labelledby="cta-title">
           <Image
             className="cta__bg"
             src={mediaSrc(images.pourOver.file)}
@@ -269,6 +241,7 @@ export default function Home() {
             sizes="100vw"
           />
           <div className="container container--narrow cta__inner">
+            <p className="kicker kicker--blue">Coming soon</p>
             <h2 id="cta-title" className="h2 h2--light">{offer.headline}</h2>
             <p className="lede lede--light">{offer.summary}</p>
             <WaitlistForm source="footer" tone="dark" />
@@ -278,7 +251,7 @@ export default function Home() {
 
       <footer className="footer">
         <div className="container footer__inner">
-          <Image src="/brand/logo-oneline-on-dark.svg" alt={site.name} width={210} height={30} unoptimized />
+          <Image src="/brand/logo-oneline-on-dark.svg" alt={site.name} width={204} height={30} unoptimized />
           <ul className="footer__links">
             <li>{site.locationLabel}</li>
             <li><a href={`mailto:${site.email}`}>{site.email}</a></li>

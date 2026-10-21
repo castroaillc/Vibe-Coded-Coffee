@@ -4,13 +4,13 @@ import { site } from "@/lib/site";
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 const FROM = process.env.EMAIL_FROM ?? `${site.name} <hello@vibecodedcoffee.com>`;
 
-async function send(to: string, subject: string, html: string, text: string) {
+async function send(to: string, subject: string, html: string, text: string, replyTo?: string) {
   if (!resend) {
     // Local development without a Resend key: print the email instead of sending it.
     console.info(`\n[email] to=${to}\nsubject=${subject}\n${text}\n`);
     return;
   }
-  const { error } = await resend.emails.send({ from: FROM, to, subject, html, text });
+  const { error } = await resend.emails.send({ from: FROM, to, subject, html, text, ...(replyTo && { replyTo }) });
   if (error) throw new Error(`Resend: ${error.message}`);
 }
 
@@ -55,5 +55,49 @@ export async function sendMembershipStarted(email: string, trialEnd?: Date | nul
 <p style="margin:0;font-size:16px;line-height:1.5">Open the app, queue your drink, and scan your pass at the kiosk.</p>
 <p style="margin:20px 0 0"><a href="${site.url}/order" style="display:inline-block;background:#3B82F6;color:#fff;text-decoration:none;font-weight:600;padding:12px 20px;border-radius:10px">Open the app</a></p>`),
     `Welcome in. Your membership is active.${until}\nOpen the app: ${site.url}/order`,
+  );
+}
+
+const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+const longDate = (ymd: string) =>
+  new Date(`${ymd}T12:00:00`).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+
+type BookingRequest = {
+  id: string; name: string; email: string; company: string | null; phone: string | null; eventType: string | null;
+  eventDate: string; headcount: number; location: string; notes: string | null;
+};
+
+/** To us: a new "Book us for your event" request. Goes to BOOKING_NOTIFY_EMAIL, or the site email. */
+export async function sendBookingAlert(r: BookingRequest) {
+  const to = process.env.BOOKING_NOTIFY_EMAIL || site.email;
+  const rows: [string, string | number | null][] = [
+    ["Name", r.name], ["Email", r.email], ["Company", r.company], ["Phone", r.phone],
+    ["Event", r.eventType], ["Date", longDate(r.eventDate)], ["Headcount", r.headcount],
+    ["Location", r.location], ["Notes", r.notes],
+  ];
+  const filled = rows.filter(([, v]) => v !== null && v !== "");
+  await send(
+    to,
+    `New booking request: ${r.company ?? r.name}, ${r.headcount} people, ${r.eventDate}`,
+    layout(`<p style="margin:0 0 16px;font-size:16px;font-weight:600">New booking request</p>
+<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px;line-height:1.5">
+${filled.map(([k, v]) => `<tr><td style="padding:4px 16px 4px 0;color:#6B7C93;vertical-align:top">${k}</td><td style="padding:4px 0">${esc(String(v))}</td></tr>`).join("\n")}
+</table>
+<p style="margin:16px 0 0;font-size:13px;color:#6B7C93">Reply to this email to answer ${esc(r.name)} directly. Request id ${r.id}.</p>`),
+    filled.map(([k, v]) => `${k}: ${v}`).join("\n"),
+    r.email,
+  );
+}
+
+/** To the organizer: we got your request. */
+export async function sendBookingReceived(email: string, name: string, eventDate: string) {
+  const first = name.split(/\s+/)[0];
+  await send(
+    email,
+    "We got your Vibe Coded Coffee booking request",
+    layout(`<p style="margin:0 0 12px;font-size:16px">Hi ${esc(first)},</p>
+<p style="margin:0 0 12px;font-size:16px;line-height:1.5">Thanks for thinking of us for your event on ${longDate(eventDate)}. We'll get back to you within one business day with a quote.</p>
+<p style="margin:0;font-size:16px;line-height:1.5">Anything to add? Just reply to this email.</p>`),
+    `Hi ${first},\n\nThanks for thinking of us for your event on ${longDate(eventDate)}. We'll get back to you within one business day with a quote.\n\nAnything to add? Just reply to this email.`,
   );
 }

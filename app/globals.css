@@ -436,3 +436,49 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   .menu__col { border-left: 0; }
   .menu__col + .menu__col { border-top: 1px solid rgba(255, 255, 255, 0.07); }
 }
+
+/* ── Booking form ("Book us for your event") ─── */
+.book { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+.book .lede { margin-top: 22px; }
+.book__contact { margin-top: 22px; font-size: 15px; color: var(--muted); }
+.booking {
+  background: var(--white); border: 1px solid var(--mist); border-radius: 24px;
+  padding: clamp(22px, 3vw, 36px); box-shadow: 0 30px 80px -60px rgba(10, 31, 51, 0.5);
+}
+.booking__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
+.booking__field { display: grid; gap: 6px; min-width: 0; }
+.booking__field--wide { grid-column: 1 / -1; }
+.booking label { font-size: 14px; font-weight: 500; color: var(--ink); }
+.booking label span { font-weight: 400; color: var(--slate); margin-left: 4px; }
+.booking input, .booking select, .booking textarea {
+  width: 100%; min-width: 0; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--mist);
+  background: var(--cream); color: var(--midnight); font: inherit; font-size: 16px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.booking input, .booking select { height: 50px; }
+.booking textarea { resize: vertical; min-height: 96px; }
+.booking input::placeholder, .booking textarea::placeholder { color: #9aa9bc; }
+.booking input:focus, .booking select:focus, .booking textarea:focus { outline: none; border-color: var(--electric); background: var(--white); }
+.booking__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin-top: 24px; }
+.booking__note { font-size: 13px; color: var(--slate); }
+.booking__error { color: #c62828; }
+.booking-done {
+  padding: 28px 30px; border-radius: 24px; background: var(--white);
+  border: 1px solid rgba(59, 130, 246, 0.45); color: var(--muted);
+}
+.booking-done__title {
+  font-family: var(--font-display-stack); text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--midnight); font-size: 18px; margin-bottom: 6px;
+}
+.hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+.soon { scroll-margin-top: 72px; }
+.soon .waitlist { margin-top: 32px; }
+@media (max-width: 900px) {
+  .book { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .booking__grid { grid-template-columns: 1fr; }
+  .booking__actions .btn { width: 100%; }
+}
+.book .kicker { color: var(--electric-2); margin-bottom: 14px; }
+.soon .kicker { margin-bottom: 14px; }

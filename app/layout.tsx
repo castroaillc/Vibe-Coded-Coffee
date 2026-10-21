@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Montserrat } from "next/font/google";
-import { offer, site } from "@/lib/site";
+import { catering, site } from "@/lib/site";
 import "./globals.css";
 
 // Fonts are downloaded at build time and self-hosted (no request to Google from visitors).
@@ -14,7 +14,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swa
 // Monospace for the menu's "spinner verb" drink names.
 const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
 
-const title = `${site.name} — ${offer.short} | Specialty Coffee & Workspace in ${site.city}`;
+const title = `${site.name} — ${catering.short} in ${site.serviceArea}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -23,31 +23,31 @@ export const metadata: Metadata = {
   applicationName: site.name,
   keywords: [
     "Vibe Coded Coffee",
-    "coffee shop Brooklyn",
+    "coffee catering NYC",
+    "coffee catering Brooklyn",
+    "event coffee catering",
+    "hackathon catering",
+    "tech event catering NYC",
+    "meetup coffee catering",
+    "corporate coffee catering",
+    "drip coffee catering",
+    "coffee for conferences",
     "coffee subscription NYC",
-    "coffee membership Brooklyn",
-    "coworking cafe Brooklyn",
-    "laptop friendly coffee shop NYC",
-    "coffee shop for founders",
-    "coffee shop for developers",
-    "free coffee subscription",
-    "matcha Brooklyn",
-    "coffee shop menu Brooklyn",
   ],
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "/",
     siteName: site.name,
-    title: `${offer.short} — ${site.name}`,
-    description: offer.summary,
+    title: `${catering.short} — ${site.name}`,
+    description: catering.summary,
     locale: "en_US",
     images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: `${site.name} — ${site.tagline}` }],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${offer.short} — ${site.name}`,
-    description: offer.summary,
+    title: `${catering.short} — ${site.name}`,
+    description: catering.summary,
     images: ["/opengraph-image.png"],
   },
   robots: {

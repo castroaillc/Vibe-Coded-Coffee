@@ -1,15 +1,14 @@
-import { formatPrice, menu } from "./menu";
-import { faqs, offer, site } from "./site";
+import { catering, faqs, offer, site } from "./site";
 
 /** Structured data (schema.org JSON-LD) so search engines and AI answer
- *  engines can understand the business, the offer and the FAQ. */
+ *  engines can understand the business, the catering service, the storefront offer and the FAQ. */
 export function buildJsonLd() {
   const orgId = `${site.url}/#organization`;
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "CafeOrCoffeeShop",
+        "@type": "FoodEstablishment",
         "@id": orgId,
         name: site.name,
         url: site.url,
@@ -18,8 +17,8 @@ export function buildJsonLd() {
         description: site.description,
         slogan: site.tagline,
         email: site.email,
-        servesCuisine: ["Coffee", "Matcha", "Tea", "Pastries"],
-        hasMenu: { "@id": `${site.url}/#menu` },
+        servesCuisine: ["Coffee"],
+        makesOffer: { "@id": `${site.url}/#catering` },
         address: {
           "@type": "PostalAddress",
           addressLocality: site.city,
@@ -30,21 +29,15 @@ export function buildJsonLd() {
         sameAs: Object.values(site.social),
       },
       {
-        "@type": "Menu",
-        "@id": `${site.url}/#menu`,
-        name: `${site.name} menu`,
-        url: `${site.url}/#menu`,
-        hasMenuSection: menu.map((section) => ({
-          "@type": "MenuSection",
-          name: section.title,
-          description: section.blurb,
-          hasMenuItem: section.items.map((item) => ({
-            "@type": "MenuItem",
-            name: `${item.verb}… (${item.name})`,
-            description: item.note,
-            offers: { "@type": "Offer", price: formatPrice(item.price), priceCurrency: "USD" },
-          })),
-        })),
+        "@type": "Service",
+        "@id": `${site.url}/#catering`,
+        name: catering.name,
+        serviceType: "Coffee catering",
+        description: catering.summary,
+        provider: { "@id": orgId },
+        areaServed: { "@type": "City", name: site.serviceArea },
+        audience: { "@type": "BusinessAudience", name: "Tech event organizers" },
+        url: `${site.url}/#book`,
       },
       {
         "@type": "WebSite",
@@ -58,8 +51,8 @@ export function buildJsonLd() {
         "@type": "WebPage",
         "@id": `${site.url}/#webpage`,
         url: site.url,
-        name: `${offer.short} — ${site.name} pre-launch waitlist`,
-        description: offer.summary,
+        name: `${site.name} — ${catering.short}`,
+        description: site.description,
         isPartOf: { "@id": `${site.url}/#website` },
         about: { "@id": orgId },
         dateModified: site.lastUpdated,
