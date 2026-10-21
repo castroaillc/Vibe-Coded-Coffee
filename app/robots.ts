@@ -6,11 +6,11 @@ import { site } from "@/lib/site";
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: ["/api/", "/order"] },
+      { userAgent: "*", allow: "/", disallow: ["/api/", "/order", "/q/", "/admin"] },
       {
         userAgent: ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "PerplexityBot", "Google-Extended", "Applebot-Extended"],
         allow: "/",
-        disallow: ["/api/", "/order"],
+        disallow: ["/api/", "/order", "/q/", "/admin"],
       },
     ],
     sitemap: `${site.url}/sitemap.xml`,

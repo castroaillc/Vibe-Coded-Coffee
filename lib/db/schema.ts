@@ -169,13 +169,59 @@ export const rsvp = pgTable(
   (t) => [primaryKey({ columns: [t.userId, t.eventId] })],
 );
 
-export const waitlist = pgTable("waitlist", {
-  id: text("id").primaryKey(),
-  email: text("email").notNull().unique(),
-  firstName: text("first_name"),
-  source: text("source"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
+/**
+ * Marketing list: everyone who joined from the site or a QR code.
+ * A lead has an email, a phone, or both. Consent is recorded per channel with
+ * the exact wording they agreed to, when, and from where (keep this as proof).
+ * Only email people with emailConsent and no emailOptOutAt; only text people
+ * with smsConsent and no smsOptOutAt.
+ */
+export const waitlist = pgTable(
+  "waitlist",
+  {
+    id: text("id").primaryKey(),
+    email: text("email").unique(),
+    phone: text("phone").unique(), // E.164, e.g. +19175550101
+    firstName: text("first_name"),
+    source: text("source"), // which form: hero, footer, free_coffee…
+    emailConsent: boolean("email_consent").default(false).notNull(),
+    emailConsentAt: timestamp("email_consent_at"),
+    emailOptOutAt: timestamp("email_opt_out_at"),
+    smsConsent: boolean("sms_consent").default(false).notNull(),
+    smsConsentAt: timestamp("sms_consent_at"),
+    smsConsentText: text("sms_consent_text"),
+    smsOptOutAt: timestamp("sms_opt_out_at"),
+    consentIp: text("consent_ip"),
+    consentUserAgent: text("consent_user_agent"),
+    utmSource: text("utm_source"),
+    utmMedium: text("utm_medium"),
+    utmCampaign: text("utm_campaign"),
+    utmContent: text("utm_content"),
+    utmTerm: text("utm_term"),
+    qrCode: text("qr_code"), // the /q/<code> they scanned, if any
+    scanId: text("scan_id"),
+    landingPath: text("landing_path"),
+    referrer: text("referrer"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => [index("waitlist_campaign_idx").on(t.utmCampaign), index("waitlist_created_idx").on(t.createdAt)],
+);
+
+/** One row per QR scan (a visit to /q/<code>), so scans → sign-ups is measurable. */
+export const qrScan = pgTable(
+  "qr_scan",
+  {
+    id: text("id").primaryKey(),
+    code: text("code").notNull(),
+    userAgent: text("user_agent"),
+    country: text("country"),
+    region: text("region"),
+    city: text("city"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("qr_scan_code_idx").on(t.code, t.createdAt)],
+);
 
 /** "Book us for your event" requests from event organizers (B2B catering). status: new → quoted → booked | declined. */
 export const bookingRequest = pgTable(

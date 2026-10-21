@@ -1,0 +1,46 @@
+/* QR landing page: light, phone-first, matches the printed sign. */
+.free {
+  --vc-navy: #0b1e2f; --vc-crema: #f3ecdc; --vc-blue: #3875ea; --vc-action: #2459c7; --vc-muted: #5b6675; --vc-line: #d8cfbd;
+  min-height: 100dvh; background: var(--vc-crema); color: var(--vc-navy);
+  display: flex; flex-direction: column; padding: 0 16px;
+}
+.free__main { width: 100%; max-width: 440px; margin: 0 auto; padding: 32px 0 24px; flex: 1; }
+.free__logo { width: 168px; height: auto; margin-bottom: 28px; }
+.free__kicker { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--vc-action); }
+.free__title { font-size: clamp(36px, 10vw, 48px); line-height: 1.02; font-weight: 800; letter-spacing: -0.02em; margin-top: 6px; }
+.free__lede { margin-top: 14px; color: var(--vc-muted); font-size: 16px; line-height: 1.55; }
+
+.free-form { margin-top: 24px; display: grid; gap: 6px; }
+.free-form > label { font-size: 14px; font-weight: 600; margin-top: 10px; }
+.free-form input[type="text"], .free-form input[type="email"], .free-form input[type="tel"] {
+  height: 52px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--vc-line); background: #fff;
+  font: inherit; font-size: 17px; color: var(--vc-navy);
+}
+.free-form input:focus-visible { outline: 2px solid var(--vc-action); outline-offset: 2px; border-color: var(--vc-action); }
+.free-form__hint { font-size: 13px; color: var(--vc-muted); }
+.free-check { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; margin-top: 14px; font-size: 13px; line-height: 1.45; color: var(--vc-muted); cursor: pointer; }
+.free-check input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--vc-action); }
+.free-check a { color: var(--vc-action); }
+.free-check--quiet { opacity: 0.75; }
+.free-btn {
+  margin-top: 20px; min-height: 56px; border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--vc-action); color: #fff; font: inherit; font-size: 17px; font-weight: 700;
+}
+.free-btn:hover { background: #1d4aa8; }
+.free-btn:disabled { opacity: 0.7; cursor: progress; }
+.free-btn:focus-visible { outline: 2px solid var(--vc-navy); outline-offset: 3px; }
+.free-form__error { min-height: 20px; font-size: 14px; color: #b42318; }
+
+.free-done { margin-top: 28px; padding: 28px 22px; border-radius: 20px; background: #fff; border: 1px solid var(--vc-line); text-align: center; }
+.free-done__check { width: 64px; height: 64px; margin: 0 auto 14px; }
+.free-done__title { font-size: 28px; font-weight: 800; letter-spacing: -0.01em; }
+.free-done__show { margin-top: 8px; font-size: 17px; }
+.free-done__stamp { margin-top: 16px; display: inline-block; padding: 6px 12px; border-radius: 999px; background: var(--vc-crema); font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.free-done__link { display: block; margin-top: 22px; color: var(--vc-action); font-weight: 600; font-size: 15px; }
+
+.free__foot { max-width: 440px; width: 100%; margin: 0 auto; padding: 16px 0 28px; display: flex; gap: 8px; font-size: 13px; color: var(--vc-muted); }
+.free__foot a { color: inherit; }
+
+.legal h2 { font-size: 18px; font-weight: 700; margin-top: 28px; }
+.legal p { margin-top: 8px; font-size: 15px; line-height: 1.6; color: var(--vc-navy); }
+.legal a { color: var(--vc-action); }

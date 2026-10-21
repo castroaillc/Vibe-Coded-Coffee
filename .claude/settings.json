@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "ClaudeInChromeDomain(developers.facebook.com)",
+      "ClaudeInChromeDomain(www.facebook.com)",
+      "ClaudeInChromeDomain(business.facebook.com)"
+    ]
+  }
+}

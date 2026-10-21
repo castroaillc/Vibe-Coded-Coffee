@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, getTableColumns, gte, ne } from "drizzle-orm";
+import { and, asc, desc, eq, getTableColumns, gte, isNotNull, ne, sql } from "drizzle-orm";
 import { db, schema } from "@/lib/db";
 import { calculateGroundCoffee } from "@/lib/brew";
 import { CUPS_PER_GUEST, EVENT_CUP_OZ } from "./format";
@@ -107,4 +107,22 @@ export function startOfShopDay(ymd: string) {
   const ny = new Date(noon.toLocaleString("en-US", { timeZone: "America/New_York" }));
   const offsetMs = noon.getTime() - ny.getTime();
   return new Date(new Date(`${ymd}T00:00:00Z`).getTime() + offsetMs);
+}
+
+// ── Marketing list (waitlist + QR scans) ────────────────────
+export type LeadRow = typeof schema.waitlist.$inferSelect;
+
+export const listLeads = () => db.select().from(schema.waitlist).orderBy(desc(schema.waitlist.createdAt));
+
+/** Scans and sign-ups per QR code, for the funnel table. */
+export async function qrFunnel() {
+  const [scans, leads] = await Promise.all([
+    db.select({ code: schema.qrScan.code, n: sql<number>`count(*)::int` }).from(schema.qrScan).groupBy(schema.qrScan.code),
+    db
+      .select({ code: schema.waitlist.qrCode, n: sql<number>`count(*)::int` })
+      .from(schema.waitlist)
+      .where(isNotNull(schema.waitlist.qrCode))
+      .groupBy(schema.waitlist.qrCode),
+  ]);
+  return { scans: new Map(scans.map((r) => [r.code, r.n])), leads: new Map(leads.map((r) => [r.code ?? "", r.n])) };
 }
