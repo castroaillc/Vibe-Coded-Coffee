@@ -65,7 +65,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${inter.variable} ${mono.variable}`}>
+    // Extensions (e.g. Scribe) add attributes to <html> before React hydrates; ignore those.
+    <html lang="en" className={`${montserrat.variable} ${inter.variable} ${mono.variable}`} suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );
