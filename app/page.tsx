@@ -3,6 +3,8 @@ import { Icon } from "@/components/Icons";
 import { LoopVideo } from "@/components/LoopVideo";
 import { BookingForm } from "@/components/BookingForm";
 import { WaitlistForm } from "@/components/WaitlistForm";
+import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
+import { eventPagePath, eventPages } from "@/lib/event-pages";
 import { images, mediaSrc, videos } from "@/lib/media";
 import { buildJsonLd } from "@/lib/schema";
 import { audiences, bookingSteps, catering, craft, faqs, offer, services, site } from "@/lib/site";
@@ -21,22 +23,7 @@ export default function Home() {
 
       <a className="skip" href="#main">Skip to content</a>
 
-      <header className="nav">
-        <div className="container nav__inner">
-          <a href="/" className="nav__logo" aria-label={`${site.name} home`}>
-            <Image src="/brand/logo-oneline-on-dark.svg" alt={site.name} width={231} height={34} priority unoptimized />
-          </a>
-          <nav aria-label="Main">
-            <ul className="nav__links">
-              <li><a href="#craft">The coffee</a></li>
-              <li><a href="#services">What&apos;s included</a></li>
-              <li><a href="#how-it-works">How it works</a></li>
-              <li><a href="#faq">FAQ</a></li>
-            </ul>
-          </nav>
-          <a href="#book" className="btn btn--ghost btn--sm">Book us</a>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main id="main">
         {/* ── Hero ───────────────────────────────── */}
@@ -173,7 +160,10 @@ export default function Home() {
                 first talk to the last demo.
               </p>
               <ul className="pills" aria-label="Events we cater">
-                {audiences.map((a) => <li key={a}>{a}</li>)}
+                {audiences.map((a) => {
+                  const page = eventPages.find((p) => p.eventType.toLowerCase() === a.toLowerCase().replace(/s$/, ""));
+                  return <li key={a}>{page ? <a href={eventPagePath(page.slug)}>{a}</a> : a}</li>;
+                })}
               </ul>
             </div>
           </div>
@@ -249,17 +239,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="footer">
-        <div className="container footer__inner">
-          <Image src="/brand/logo-oneline-on-dark.svg" alt={site.name} width={204} height={30} unoptimized />
-          <ul className="footer__links">
-            <li>{site.locationLabel}</li>
-            <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-            <li><a href={site.social.instagram} rel="me noopener" target="_blank">Instagram</a></li>
-          </ul>
-          <p className="footer__small">© {new Date().getFullYear()} {site.name}. Last updated {site.lastUpdated}.</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

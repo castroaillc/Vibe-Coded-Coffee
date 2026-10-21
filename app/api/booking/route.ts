@@ -13,6 +13,7 @@ const clean = (v: unknown, max: number) => (typeof v === "string" ? v.trim().sli
 type Request_ = {
   id: string; name: string; email: string; company: string | null; phone: string | null;
   eventType: string | null; eventDate: string; headcount: number; location: string; notes: string | null;
+  page?: string;
 };
 
 /** Puts the request in the admin pipeline as a lead, reusing the client if this email booked before. */
@@ -31,7 +32,8 @@ async function addLead(r: Request_) {
     date: r.eventDate,
     location: r.location,
     headcount: r.headcount,
-    notes: r.notes ?? "",
+    // Note which page the request came from (e.g. /coffee-catering/hackathons) to see which pages bring bookings.
+    notes: [r.notes, r.page && r.page !== "/" ? `Requested from ${r.page}` : ""].filter(Boolean).join("\n\n"),
     source: "website",
     bookingRequestId: r.id,
   });
@@ -63,9 +65,10 @@ export async function POST(req: Request) {
   if (!location) return NextResponse.json({ error: "Please tell us where the event is." }, { status: 400 });
 
   const request = { id: id(), name, email, company, phone, eventType, eventDate, headcount, location, notes };
+  const page = clean(body.page, 120);
   try {
     await db.insert(schema.bookingRequest).values(request);
-    await addLead(request);
+    await addLead({ ...request, page });
   } catch (err) {
     console.error("[booking] failed to store request", err);
     return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });

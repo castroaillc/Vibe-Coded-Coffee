@@ -7,7 +7,7 @@ import { Icon } from "./Icons";
 type Status = "idle" | "loading" | "success" | "error";
 
 /** "Book us for your event": posts to /api/booking. */
-export function BookingForm() {
+export function BookingForm({ defaultEventType = "" }: { defaultEventType?: string } = {}) {
   const id = useId();
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
@@ -23,7 +23,7 @@ export function BookingForm() {
       const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, page: window.location.pathname }),
       });
       const json = (await res.json().catch(() => ({}))) as { error?: string };
       if (!res.ok) throw new Error(json.error || "Something went wrong. Please try again.");
@@ -66,7 +66,7 @@ export function BookingForm() {
         </div>
         <div className="booking__field">
           <label htmlFor={f("eventType")}>Type of event</label>
-          <select id={f("eventType")} name="eventType" defaultValue="">
+          <select id={f("eventType")} name="eventType" defaultValue={defaultEventType}>
             <option value="" disabled>Choose one</option>
             {eventTypes.map((t) => <option key={t} value={t}>{t}</option>)}
           </select>

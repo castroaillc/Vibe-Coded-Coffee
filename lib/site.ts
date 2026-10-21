@@ -91,6 +91,10 @@ export const faqs = [
     a: "Fill in the booking form on this page with your event date, location and headcount. We reply within one business day with a quote.",
   },
   {
+    q: "Do you cater hackathons?",
+    a: "Yes. Hackathons are what we're built for. We plan coffee per day of hacking, brew in small batches so it stays fresh through late nights and demos, and handle setup and cleanup. Send your date, venue and headcount for a quote.",
+  },
+  {
     q: "What do you serve?",
     a: "Right now we serve freshly brewed drip coffee, with milk, sugar, cups and lids included. More drinks are coming when we add our coffee cart.",
   },
