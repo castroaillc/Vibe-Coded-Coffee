@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
+import { usePathname } from "next/navigation";
+import { adminSignOut } from "@/app/admin/actions";
 
 const LINKS = [
   { href: "/admin", label: "Dashboard" },
@@ -12,9 +12,8 @@ const LINKS = [
   { href: "/admin/brew", label: "Brew planner" },
 ];
 
-export function AdminNav({ email }: { email: string }) {
+export function AdminNav() {
   const path = usePathname();
-  const router = useRouter();
   const active = (href: string) =>
     href === "/admin" ? path === "/admin" : path.startsWith(href) || (href === "/admin/pipeline" && path.startsWith("/admin/events"));
 
@@ -27,16 +26,9 @@ export function AdminNav({ email }: { email: string }) {
         ))}
       </nav>
       <div className="adm-side__foot">
-        <p>{email}</p>
-        <button
-          type="button"
-          onClick={async () => {
-            await authClient.signOut();
-            router.replace("/admin/sign-in");
-          }}
-        >
-          Sign out
-        </button>
+        <form action={adminSignOut}>
+          <button>Sign out</button>
+        </form>
       </div>
     </aside>
   );

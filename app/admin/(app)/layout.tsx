@@ -5,10 +5,10 @@ import { requireAdmin } from "@/lib/admin/auth";
 export const dynamic = "force-dynamic";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const user = await requireAdmin();
+  await requireAdmin();
   return (
     <div className="adm">
-      <AdminNav email={user.email} />
+      <AdminNav />
       <main className="adm-main">{children}</main>
     </div>
   );

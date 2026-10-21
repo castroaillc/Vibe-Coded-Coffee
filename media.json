@@ -44,12 +44,12 @@
       "source": "https://unsplash.com/photos/person-pouring-water-in-clear-glass-jar-XP5zW2ngk9w"
     },
     "builder": {
-      "file": "builder-at-work.jpg",
-      "url": "https://images.unsplash.com/photo-1545184180-25d471fe75eb?auto=format&fit=crop&q=75&w=1400&h=1600",
+      "file": "couple-train-station.jpg",
+      "url": "https://images.pexels.com/photos/8555262/pexels-photo-8555262.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1400&h=1600",
       "width": 1400,
       "height": 1600,
-      "alt": "A builder working on a laptop with a cup of coffee at a cafe counter",
-      "source": "https://unsplash.com/photos/man-sitting-while-having-coffee-and-using-laptop-PFC2fY9LE_g"
+      "alt": "Two coworkers laughing over takeaway coffees at a train station",
+      "source": "https://www.pexels.com/photo/a-couple-standing-on-the-train-station-8555262/"
     },
     "beans": {
       "file": "beans-hopper.jpg",

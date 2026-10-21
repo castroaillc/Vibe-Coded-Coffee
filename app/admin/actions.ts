@@ -2,8 +2,9 @@
 
 import { eq, inArray } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { requireAdmin } from "@/lib/admin/auth";
+import { ADMIN_COOKIE, ADMIN_COOKIE_MAX_AGE, adminToken, isAdminPassword, requireAdmin } from "@/lib/admin/auth";
 import { toCents } from "@/lib/admin/format";
 import { db, schema } from "@/lib/db";
 import { EVENT_STATUSES, PAYMENT_METHODS, PAYMENT_STATUSES, type SaleItem } from "@/lib/db/schema";
@@ -53,6 +54,27 @@ function eventValues(f: FormData) {
     paymentStatus,
     notes: str(f, "notes", 4000),
   };
+}
+
+// ── Sign in ────────────────────────────────────────────────
+export async function adminSignIn(_prev: string, f: FormData) {
+  if (!isAdminPassword(String(f.get("password") ?? ""))) {
+    await new Promise((r) => setTimeout(r, 1000)); // slow down guessing
+    return "Wrong password.";
+  }
+  (await cookies()).set(ADMIN_COOKIE, adminToken(), {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/admin",
+    maxAge: ADMIN_COOKIE_MAX_AGE,
+  });
+  redirect("/admin");
+}
+
+export async function adminSignOut() {
+  (await cookies()).delete({ name: ADMIN_COOKIE, path: "/admin" });
+  redirect("/admin/sign-in");
 }
 
 // ── Clients ────────────────────────────────────────────────

@@ -16,3 +16,5 @@ public/media/*
 # local files
 waitlist.csv
 .DS_Store
+.env*
+!.env.example

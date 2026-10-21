@@ -60,8 +60,8 @@ to trigger it, so the app shows the two steps (Share → Add to Home Screen) ins
 
 ## Admin: Coffee OS (/admin)
 
-The back office for the catering business, made for an iPad or laptop. Sign in at `/admin` with an emailed code;
-only emails in `ADMIN_EMAILS` get in.
+The back office for the catering business, made for an iPad or laptop. Sign in at `/admin` with the one
+shared password in `ADMIN_PASSWORD`.
 
 - **Dashboard:** open leads, booked events coming up (with how much coffee to bring), money still owed, POS sales today.
 - **Pipeline:** every catering job as a card in Lead → Quoted → Booked → Completed (or Lost). "Book us for your event"
@@ -83,6 +83,7 @@ Tables: `client`, `catering_event`, `client_note`, `product`, `sale` (in `lib/db
 | **Better Auth** | sign in with a 6-digit email code; 90-day sessions on the phone | `lib/auth.ts`, `/api/auth/*` |
 | **Resend** | booking alerts + confirmations, sign-in codes, waitlist welcome, "membership active" emails | `lib/email.ts` |
 | **Stripe** (Better Auth plugin) | the membership subscription, 30-day free trial = free first month | `lib/auth.ts` |
+| **WhatsApp Cloud API** | speed to lead: a new booking request WhatsApps `LEAD_ALERT_PHONE` with a tap-to-call number | `lib/whatsapp.ts`, `pnpm whatsapp:template` |
 
 Sign-in uses an emailed **code**, not a magic link: on iPhone a link opens Safari instead of the
 home-screen app, so members would end up signed in in the wrong place.

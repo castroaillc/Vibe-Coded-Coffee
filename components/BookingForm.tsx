@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { eventTypes } from "@/lib/site";
+import { eventTypes, site } from "@/lib/site";
 import { Icon } from "./Icons";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -39,7 +39,7 @@ export function BookingForm() {
     return (
       <div className="booking-done" role="status" aria-live="polite">
         <p className="booking-done__title">Request received.</p>
-        <p>Thanks! We&apos;ll reply within one business day with a quote. Check your inbox for a confirmation.</p>
+        <p>Thanks! We&apos;ll call you shortly to talk through your event and quote. Check your inbox for a confirmation.</p>
       </div>
     );
   }
@@ -61,8 +61,8 @@ export function BookingForm() {
           <input id={f("company")} name="company" type="text" autoComplete="organization" maxLength={120} />
         </div>
         <div className="booking__field">
-          <label htmlFor={f("phone")}>Phone <span>optional</span></label>
-          <input id={f("phone")} name="phone" type="tel" autoComplete="tel" inputMode="tel" maxLength={30} />
+          <label htmlFor={f("phone")}>Phone</label>
+          <input id={f("phone")} name="phone" type="tel" autoComplete="tel" inputMode="tel" required maxLength={30} />
         </div>
         <div className="booking__field">
           <label htmlFor={f("eventType")}>Type of event</label>
@@ -99,9 +99,12 @@ export function BookingForm() {
           <Icon name="arrow" size={16} />
         </button>
         <p className="booking__note" aria-live="polite">
-          {status === "error" ? <span className="booking__error">{message}</span> : "No commitment. We reply within one business day."}
+          {status === "error" ? <span className="booking__error">{message}</span> : "No commitment. We'll call you shortly."}
         </p>
       </div>
+      <p className="booking__consent">
+        By submitting, you agree {site.name} may call, text or WhatsApp you at this number about your event. Msg &amp; data rates may apply.
+      </p>
     </form>
   );
 }

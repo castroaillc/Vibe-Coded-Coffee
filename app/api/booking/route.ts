@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db, schema } from "@/lib/db";
 import { sendBookingAlert, sendBookingReceived } from "@/lib/email";
+import { alertNewLead, toE164 } from "@/lib/whatsapp";
 import { eventTypes } from "@/lib/site";
 import { id } from "@/lib/server/ids";
 
@@ -36,7 +37,7 @@ async function addLead(r: Request_) {
   });
 }
 
-/** "Book us for your event": saved to Neon, an alert to us and a confirmation to the organizer via Resend. */
+/** "Book us for your event": saved to Neon, an email + WhatsApp to us, and a confirmation to the organizer. */
 export async function POST(req: Request) {
   const body = (await req.json().catch(() => null)) as Record<string, unknown> | null;
   if (!body) return NextResponse.json({ error: "Invalid request." }, { status: 400 });
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
   const name = clean(body.name, 80);
   const email = clean(body.email, 254).toLowerCase();
   const company = clean(body.company, 120) || null;
-  const phone = clean(body.phone, 30) || null;
+  const phone = toE164(clean(body.phone, 30));
   const eventType = (eventTypes as readonly string[]).includes(clean(body.eventType, 40)) ? clean(body.eventType, 40) : null;
   const eventDate = clean(body.eventDate, 10);
   const headcount = Number.parseInt(clean(body.headcount, 6), 10);
@@ -54,6 +55,7 @@ export async function POST(req: Request) {
 
   if (!name) return NextResponse.json({ error: "Please add your name." }, { status: 400 });
   if (!EMAIL_RE.test(email)) return NextResponse.json({ error: "Please enter a valid email address." }, { status: 400 });
+  if (!phone) return NextResponse.json({ error: "Please enter a phone number we can call you on." }, { status: 400 });
   if (!DATE_RE.test(eventDate) || Number.isNaN(Date.parse(eventDate)))
     return NextResponse.json({ error: "Please pick the event date." }, { status: 400 });
   if (!Number.isFinite(headcount) || headcount < 1 || headcount > 100000)
@@ -72,6 +74,7 @@ export async function POST(req: Request) {
   await Promise.all([
     sendBookingAlert(request).catch((e) => console.error("[booking alert email]", e)),
     sendBookingReceived(email, name, eventDate).catch((e) => console.error("[booking confirm email]", e)),
+    alertNewLead(request).catch((e) => console.error("[booking whatsapp]", e)),
   ]);
   return NextResponse.json({ ok: true });
 }

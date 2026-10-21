@@ -1,17 +1,28 @@
-import { headers } from "next/headers";
+import { createHmac, timingSafeEqual } from "node:crypto";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
 
-/** Comma-separated list of emails allowed into /admin, e.g. ADMIN_EMAILS=steve@vibecodedcoffee.com */
-const adminEmails = () =>
-  (process.env.ADMIN_EMAILS ?? "").split(",").map((e) => e.trim().toLowerCase()).filter(Boolean);
+/** One shared password for /admin, set as ADMIN_PASSWORD. */
+export const ADMIN_COOKIE = "coffee_os_admin";
+export const ADMIN_COOKIE_MAX_AGE = 60 * 60 * 24 * 30;
 
-export const isAdminEmail = (email: string) => adminEmails().includes(email.toLowerCase());
+const same = (a: string, b: string) => {
+  const x = Buffer.from(a);
+  const y = Buffer.from(b);
+  return x.length === y.length && timingSafeEqual(x, y);
+};
 
-/** The signed-in admin, or a redirect to the admin sign-in page. Call at the top of every admin page and action. */
+/** Cookie value: an HMAC of the password, so changing ADMIN_PASSWORD signs everyone out. */
+export function adminToken() {
+  const password = process.env.ADMIN_PASSWORD;
+  if (!password) throw new Error("ADMIN_PASSWORD isn't set.");
+  return createHmac("sha256", `${process.env.BETTER_AUTH_SECRET ?? ""}:${password}`).update("coffee-os-admin").digest("hex");
+}
+
+export const isAdminPassword = (input: string) => Boolean(process.env.ADMIN_PASSWORD) && same(input, process.env.ADMIN_PASSWORD!);
+
+/** Redirects to the admin sign-in page unless the admin cookie is valid. Call at the top of every admin page and action. */
 export async function requireAdmin() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) redirect("/admin/sign-in");
-  if (!isAdminEmail(session.user.email)) redirect("/admin/sign-in?denied=1");
-  return session.user;
+  const token = (await cookies()).get(ADMIN_COOKIE)?.value;
+  if (!token || !process.env.ADMIN_PASSWORD || !same(token, adminToken())) redirect("/admin/sign-in");
 }

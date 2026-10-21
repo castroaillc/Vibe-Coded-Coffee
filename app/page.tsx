@@ -43,7 +43,7 @@ export default function Home() {
         <section className="hero" id="top" aria-labelledby="hero-title">
           <Image
             className="hero__bg"
-            src={mediaSrc(images.heroCafe.file)}
+            src={mediaSrc(images.pourOver.file)}
             alt=""
             fill
             priority
@@ -234,10 +234,10 @@ export default function Home() {
         <section className="cta soon" id="waitlist" aria-labelledby="cta-title">
           <Image
             className="cta__bg"
-            src={mediaSrc(images.pourOver.file)}
+            src={mediaSrc(images.heroCafe.file)}
             alt=""
-            width={images.pourOver.width}
-            height={images.pourOver.height}
+            width={images.heroCafe.width}
+            height={images.heroCafe.height}
             sizes="100vw"
           />
           <div className="container container--narrow cta__inner">

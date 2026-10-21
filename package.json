@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "media": "node scripts/download-media.mjs",
+    "whatsapp:template": "node scripts/whatsapp-template.mjs",
     "predev": "node scripts/download-media.mjs",
     "dev": "next dev",
     "prebuild": "node scripts/download-media.mjs",
