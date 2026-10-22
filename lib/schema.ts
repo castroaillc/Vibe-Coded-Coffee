@@ -28,7 +28,11 @@ export function buildJsonLd() {
           addressRegion: site.region,
           addressCountry: site.country,
         },
-        areaServed: { "@type": "City", name: "New York City" },
+        geo: { "@type": "GeoCoordinates", latitude: site.geo.latitude, longitude: site.geo.longitude },
+        areaServed: [
+          { "@type": "City", name: "New York City" },
+          ...site.boroughs.map((name) => ({ "@type": "AdministrativeArea", name, containedInPlace: { "@type": "City", name: "New York City" } })),
+        ],
         knowsAbout: ["Coffee catering", "Hackathon catering", "Tech event catering", "Conference coffee service", "Drip coffee"],
         contactPoint: { "@type": "ContactPoint", contactType: "Catering quotes", email: site.email, areaServed: "US-NY", availableLanguage: "English" },
         sameAs: Object.values(site.social),

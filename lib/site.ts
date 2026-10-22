@@ -18,6 +18,10 @@ export const site = {
   country: "US",
   locationLabel: "Brooklyn, New York",
   serviceArea: "New York City",
+  /** Brooklyn, approximate (no storefront address yet). Used for geo meta tags and JSON-LD. */
+  geo: { latitude: 40.6782, longitude: -73.9442 },
+  /** Where we cater, for search engines. */
+  boroughs: ["Brooklyn", "Manhattan", "Queens", "The Bronx", "Staten Island"],
   email: "hello@vibecodedcoffee.com",
   social: {
     instagram: "https://www.instagram.com/vibecodedcoffee",

@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { useId, useState } from "react";
 import { EMAIL_CONSENT_TEXT, SMS_CONSENT_TEXT } from "@/lib/marketing";
 
@@ -55,6 +56,7 @@ export function FreeCoffeeForm({ source = "free_coffee" }: { source?: string }) 
       if (!res.ok) throw new Error(json.error || "Something went wrong. Please try again.");
       setName(String(f.get("firstName") ?? "").trim());
       setClaimedAt(new Date().toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }));
+      track("Free coffee claim", { source: String(source), utmSource: q.get("utm_source") ?? "direct" });
       setStatus("success");
       window.scrollTo({ top: 0 });
     } catch (err) {

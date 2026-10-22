@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { useId, useState } from "react";
 import { eventTypes, site } from "@/lib/site";
 import { Icon } from "./Icons";
@@ -27,6 +28,7 @@ export function BookingForm({ defaultEventType = "" }: { defaultEventType?: stri
       });
       const json = (await res.json().catch(() => ({}))) as { error?: string };
       if (!res.ok) throw new Error(json.error || "Something went wrong. Please try again.");
+      track("Booking request", { eventType: String(data.eventType || "unspecified"), headcount: Number(data.headcount) || 0 });
       setStatus("success");
       form.reset();
     } catch (err) {

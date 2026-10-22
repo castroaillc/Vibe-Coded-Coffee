@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { useId, useState } from "react";
 import { Icon } from "./Icons";
 
@@ -24,6 +25,7 @@ export function WaitlistForm({ source = "hero", tone = "dark" }: { source?: stri
       });
       const json = (await res.json().catch(() => ({}))) as { error?: string };
       if (!res.ok) throw new Error(json.error || "Something went wrong. Please try again.");
+      track("Waitlist signup", { source });
       setStatus("success");
       form.reset();
     } catch (err) {

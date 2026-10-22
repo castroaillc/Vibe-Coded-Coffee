@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter, JetBrains_Mono, Montserrat } from "next/font/google";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -64,6 +66,18 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
   },
   category: "food & drink",
+  // Search Console / Bing Webmaster verification codes (set in Vercel; blank skips the tag).
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    other: process.env.BING_SITE_VERIFICATION ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION } : undefined,
+  },
+  // Local SEO: where the business is.
+  other: {
+    "geo.region": `${site.country}-${site.region}`,
+    "geo.placename": site.locationLabel,
+    "geo.position": `${site.geo.latitude};${site.geo.longitude}`,
+    ICBM: `${site.geo.latitude}, ${site.geo.longitude}`,
+  },
 };
 
 export const viewport: Viewport = {
@@ -75,7 +89,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     // Extensions (e.g. Scribe) add attributes to <html> before React hydrates; ignore those.
     <html lang="en" className={`${montserrat.variable} ${inter.variable} ${mono.variable}`} suppressHydrationWarning>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+        <SpeedInsights />
+      </body>
     </html>
   );
 }

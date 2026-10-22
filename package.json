@@ -20,6 +20,8 @@
     "@better-auth/drizzle-adapter": "^1.7.7",
     "@better-auth/stripe": "^1.7.11",
     "@neondatabase/serverless": "^1.2.0",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "better-auth": "^1.7.11",
     "drizzle-orm": "^0.45.4",
     "next": "^15.3.0",
