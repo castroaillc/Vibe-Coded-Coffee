@@ -9,7 +9,10 @@ export const site = {
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://vibecodedcoffee.com").replace(/\/$/, ""),
   tagline: "Good coffee. Better builders.",
   description:
-    "Vibe Coded Coffee is a coffee catering company for tech events in New York City: hackathons, meetups, demo days, conferences and team offsites. We bring freshly brewed drip coffee, set up and clean up. Request a quote for your event.",
+    "Vibe Coded Coffee is a Brooklyn coffee caterer for tech events in New York City. We brew drip coffee on site at hackathons, meetups, demo days, conferences and team offsites, using a medium-roast house blend roasted weekly in NYC. Send your date, venue and headcount for a quote.",
+  /** Search-result snippet: keep under ~155 characters. */
+  metaDescription:
+    "Drip coffee brewed on site for NYC hackathons, meetups, demo days and offsites by a Brooklyn team. Send your headcount, get a quote next business day.",
   city: "Brooklyn",
   region: "NY",
   country: "US",
@@ -28,7 +31,7 @@ export const catering = {
   short: "Coffee catering for tech events",
   headline: "Coffee for the people building the future.",
   summary:
-    "Freshly brewed drip coffee for hackathons, meetups, demo days and offsites across New York City. Tell us about your event and we'll send a quote within one business day.",
+    "Drip coffee for hackathons, meetups, demo days and offsites anywhere in New York City. Send the date, venue and headcount and you'll have a price by the next business day.",
 };
 
 /** Kinds of event on the booking form (also accepted by /api/booking). */
@@ -38,30 +41,30 @@ export const eventTypes = ["Hackathon", "Meetup", "Demo day", "Conference", "Tea
 export const services = [
   {
     icon: "cup",
-    title: "Fresh drip coffee",
-    body: "Small-batch beans, freshly ground and brewed in batches so the pot never sits long.",
+    title: "Drip coffee, brewed on site",
+    body: "A medium-roast house blend from Brooklyn Coffee, roasted weekly in NYC. We grind it the morning of your event and brew a new batch whenever the last one runs low. Decaf on request.",
   },
   {
     icon: "people",
     title: "Sized to your headcount",
-    body: "From a 20-person meetup to a 500-person hackathon. Tell us how many and we'll bring enough.",
+    body: "We plan 1.5 twelve-ounce cups per guest per day. For 100 guests that's about 150 cups and 7 lb of coffee. We've sized it for 20-person meetups and 500-person hackathons.",
   },
   {
     icon: "laptop",
     title: "Made for tech events",
-    body: "Long build sessions, late demos, early keynotes. We keep the coffee going while your people ship.",
+    body: "Hackathons run overnight. Keynotes start at 9. Demo days run long. Send us the schedule and we'll plan the coffee around it, hour by hour.",
   },
   {
     icon: "bulb",
-    title: "We set up and clean up",
-    body: "Cups, lids, milk and sugar included. You focus on the event, we handle the coffee station.",
+    title: "Supplies in, trash out",
+    body: "12 oz cups with lids and sleeves, creamer, cane and raw sugar, sweeteners, stirrers and napkins come with every booking. When the event ends, we pack it all out.",
   },
 ] as const;
 
 export const craft = [
-  { title: "Freshly ground", body: "Beans ground the day of your event, never a bag that sat open for a week." },
-  { title: "Brewed in small batches", body: "Fresh pots all event long, never a stale urn." },
-  { title: "Served with care", body: "A friendly coffee station your guests will actually line up for." },
+  { title: "Ground that morning", body: "Whole beans, ground the day of your event. Not a bag that's been open since last week." },
+  { title: "Brewed at 16:1", body: "Sixteen parts water to one part coffee, by weight. Small batches, so nothing sits on a burner for hours." },
+  { title: "Someone at the table", body: "On staffed bookings, one of us runs the station: refilling, restocking cups and wiping down." },
 ];
 
 export const bookingSteps = [
@@ -96,7 +99,7 @@ export const faqs = [
   },
   {
     q: "What do you serve?",
-    a: "Right now we serve freshly brewed drip coffee, with milk, sugar, cups and lids included. More drinks are coming when we add our coffee cart.",
+    a: "Drip coffee, brewed on site from a medium-roast house blend roasted weekly in NYC. Decaf on request. Cups with lids and sleeves, creamer, sugar, sweeteners, stirrers and napkins are included. Espresso drinks will come later, with our coffee cart.",
   },
   {
     q: "How far in advance should I book?",

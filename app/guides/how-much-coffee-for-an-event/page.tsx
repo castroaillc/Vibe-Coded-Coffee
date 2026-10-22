@@ -7,9 +7,9 @@ import { eventPagePath } from "@/lib/event-pages";
 import { breadcrumbJsonLd, faqJsonLd, jsonLdScript } from "@/lib/schema";
 import { site } from "@/lib/site";
 
-const title = "How Much Coffee Do You Need for an Event? (Calculator)";
+const title = "How Much Coffee for an Event? Calculator";
 const description =
-  "Plan about 1.5 twelve-ounce cups of coffee per guest per event day. Free calculator and table for 25 to 500 guests: cups, gallons and pounds of ground coffee, including multi-day hackathons.";
+  "Plan 1.5 twelve-ounce cups of coffee per guest per day. Free calculator and table for 25 to 500 guests: cups, gallons and pounds of ground coffee.";
 const path = GUIDE_PATH;
 const hundred = planCoffee(100, 1);
 const hack = planCoffee(150, 2);

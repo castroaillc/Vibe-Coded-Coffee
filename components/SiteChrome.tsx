@@ -11,7 +11,7 @@ export function SiteHeader() {
     <header className="nav">
       <div className="container nav__inner">
         <Link href="/" className="nav__logo" aria-label={`${site.name} home`}>
-          <Image src="/brand/logo-oneline-on-dark.svg" alt={site.name} width={231} height={34} priority unoptimized />
+          <Image src="/brand/logo-oneline-on-dark.svg" alt={site.name} width={231} height={34} unoptimized />
         </Link>
         <nav aria-label="Main">
           <ul className="nav__links">
@@ -43,6 +43,12 @@ export function SiteFooter() {
           {eventPages.map((p) => <Link key={p.slug} href={eventPagePath(p.slug)}>{p.name}</Link>)}
           <Link href={GUIDE_PATH}>How much coffee for an event</Link>
         </nav>
+        <noscript>
+          <p className="footer__small">
+            <a href="/">Home</a> · <a href="/coffee-catering">Coffee catering</a> · <a href="/coffee-catering/hackathons">Hackathons</a> ·{" "}
+            <a href="/#book">Book us</a> · <a href={GUIDE_PATH}>Coffee calculator</a> · <a href="/llms.txt">llms.txt</a>
+          </p>
+        </noscript>
         <p className="footer__small">© {new Date().getFullYear()} {site.name}. Last updated {site.lastUpdated}.</p>
       </div>
     </footer>

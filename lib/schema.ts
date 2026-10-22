@@ -1,4 +1,5 @@
 import { eventPagePath, eventPages } from "./event-pages";
+import { videos } from "./media";
 import { catering, faqs, offer, site } from "./site";
 
 /** Structured data (schema.org JSON-LD) so search engines and AI answer
@@ -9,7 +10,8 @@ export function buildJsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "FoodEstablishment",
+        // Organization + its local-business subtype, so every parser recognises it.
+        "@type": ["Organization", "FoodEstablishment"],
         "@id": orgId,
         name: site.name,
         url: site.url,
@@ -79,6 +81,19 @@ export function buildJsonLd() {
         url: `${site.url}/#waitlist`,
         seller: { "@id": orgId },
         eligibleRegion: { "@type": "City", name: "New York City" },
+      },
+      {
+        "@type": "VideoObject",
+        "@id": `${site.url}/#video-grinding`,
+        name: "Coffee beans pouring into a grinder",
+        description: "Whole coffee beans going into the grinder. We grind on the day of each event.",
+        thumbnailUrl: `${site.url}/media/${videos.grinding.poster}`,
+        contentUrl: `${site.url}/media/${videos.grinding.file}`,
+        uploadDate: "2026-10-19",
+        width: videos.grinding.width,
+        height: videos.grinding.height,
+        isFamilyFriendly: true,
+        publisher: { "@id": orgId },
       },
       {
         "@type": "FAQPage",

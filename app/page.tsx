@@ -32,8 +32,10 @@ export default function Home() {
             className="hero__bg"
             src={mediaSrc(images.pourOver.file)}
             alt=""
-            fill
+            width={images.pourOver.width}
+            height={images.pourOver.height}
             priority
+            fetchPriority="high"
             sizes="100vw"
           />
           <div className="container hero__inner">
@@ -42,8 +44,8 @@ export default function Home() {
               <h1 id="hero-title">
                 <span className="hero__title">Fuel for what&apos;s next</span>
                 <span className="hero__sub">
-                  Coffee catering for tech events in {site.serviceArea}. Freshly brewed drip coffee for your hackathon,
-                  meetup, demo day or offsite. We set up, keep it flowing and clean up.
+                  Coffee catering for tech events in {site.serviceArea}. We brew drip coffee on site at hackathons,
+                  meetups, demo days and offsites, then pack everything out when you&apos;re done.
                 </span>
               </h1>
               <div className="hero__actions">
@@ -62,7 +64,7 @@ export default function Home() {
               <div><dt>What</dt><dd>Drip coffee catering for tech events</dd></div>
               <div><dt>Where</dt><dd>Across {site.serviceArea}</dd></div>
               <div><dt>For</dt><dd>Hackathons, meetups, demo days, offsites</dd></div>
-              <div><dt>Pricing</dt><dd>Custom quote within one business day</dd></div>
+              <div><dt>Pricing</dt><dd>Quote by the next business day</dd></div>
               <div><dt>Coming soon</dt><dd>Our own storefront, {offer.short.toLowerCase()}</dd></div>
             </dl>
           </div>
@@ -74,8 +76,8 @@ export default function Home() {
             <div className="split-head">
               <h2 id="craft-title" className="h2">From bean to cup</h2>
               <p className="lede">
-                Small-batch beans, freshly ground and brewed by people who sweat the details, the same way you do
-                with what you ship.
+                We&apos;re a small team in Brooklyn. Our house blend is a medium roast from Brooklyn Coffee, roasted weekly
+                in NYC, ground the morning of your event and brewed on site.
               </p>
             </div>
 
@@ -124,8 +126,8 @@ export default function Home() {
             <div className="split-head">
               <h2 id="services-title" className="h2">What&apos;s included</h2>
               <p className="lede">
-                A full coffee station for your event, staffed and stocked. You bring the builders, we bring the
-                coffee.
+                Every booking includes the coffee and everything that goes with it. Staffed bookings include one of
+                us behind the table.
               </p>
             </div>
             <ul className="perks">
@@ -156,8 +158,8 @@ export default function Home() {
               <p className="kicker kicker--blue">Built for builders</p>
               <h2 id="space-title" className="h2 h2--light">Coffee that keeps up with your event</h2>
               <p className="lede lede--light">
-                Early keynotes, all-night hackathons and demo days that run long. We keep the coffee fresh from the
-                first talk to the last demo.
+                A hackathon can kick off at 9 a.m. and wrap with demos the next evening. We plan coffee by the day
+                and brew in small batches, so the cup at 2 a.m. isn&apos;t left over from breakfast.
               </p>
               <ul className="pills" aria-label="Events we cater">
                 {audiences.map((a) => {

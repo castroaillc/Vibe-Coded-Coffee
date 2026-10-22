@@ -58,7 +58,7 @@ export function WaitlistForm({ source = "hero", tone = "dark" }: { source?: stri
           maxLength={254}
         />
         {/* Honeypot: hidden from people, bots fill it in */}
-        <div className="hp" aria-hidden="true">
+        <div className="hp" inert>
           <label htmlFor={`${id}-company`}>Company</label>
           <input id={`${id}-company`} name="company" type="text" tabIndex={-1} autoComplete="off" />
         </div>

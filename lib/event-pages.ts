@@ -28,10 +28,10 @@ export const eventPages: EventPage[] = [
     name: "Hackathon coffee catering",
     title: "Hackathon Coffee Catering in NYC",
     description:
-      "Coffee catering for hackathons in New York City. Fresh drip coffee from kickoff to final demos, sized to your headcount, with setup and cleanup. Get a quote in one business day.",
+      "Drip coffee for NYC hackathons, brewed on site from kickoff to demos and planned per day of hacking. Setup, cleanup and supplies included.",
     h1: "Hackathon coffee catering in New York City",
     answer:
-      "Vibe Coded Coffee caters hackathons across New York City with freshly brewed drip coffee, brewed in small batches from kickoff to final demos. We size the coffee to your headcount and schedule, set up the station, keep it stocked, and clean up after. Send your date, venue and headcount and we reply with a quote within one business day.",
+      "Vibe Coded Coffee caters hackathons in New York City. We brew drip coffee on site, from a medium-roast blend roasted weekly in NYC, and plan it per day of hacking: about 1.5 cups per hacker per day, so a 150-person weekend runs around 450 cups. Send your dates, venue and registration count and we'll have a price back to you by the next business day.",
     exampleGuests: 150,
     exampleDays: 2,
     why: [
@@ -55,10 +55,10 @@ export const eventPages: EventPage[] = [
     name: "Tech meetup coffee catering",
     title: "Coffee Catering for Tech Meetups in NYC",
     description:
-      "Fresh drip coffee for tech meetups in New York City. A coffee station for 20 to 200 guests, set up before doors open and cleaned up after. Quote in one business day.",
+      "A drip coffee station for NYC tech meetups of 20 to 200 people, ready before doors open and packed out after. Quote by the next business day.",
     h1: "Coffee catering for tech meetups in NYC",
     answer:
-      "Vibe Coded Coffee brings a fresh drip coffee station to tech meetups across New York City. We arrive before doors open, keep the coffee going through talks and networking, and clean up after, so hosts can focus on the room. Request a quote with your date, venue and headcount and we reply within one business day.",
+      "We run the coffee table at tech meetups across New York City. The station is set up and the first batch brewed before doors open, and we're packed out when the room clears. For a 60-person evening meetup that's about 90 cups. Send your date, venue and RSVP count for a quote.",
     exampleGuests: 60,
     exampleDays: 1,
     why: [
@@ -78,12 +78,12 @@ export const eventPages: EventPage[] = [
     slug: "conferences",
     eventType: "Conference",
     name: "Conference coffee service",
-    title: "Coffee Service for Tech Conferences in NYC",
+    title: "Tech Conference Coffee Service in NYC",
     description:
-      "Coffee service for tech conferences in New York City: fresh drip coffee for registration, breaks and the expo floor, sized to your attendance. Quote in one business day.",
+      "Drip coffee for NYC tech conferences, with batches timed to registration and session breaks. Multi-day events quoted per day.",
     h1: "Coffee service for tech conferences in NYC",
     answer:
-      "Vibe Coded Coffee provides fresh drip coffee service for tech conferences in New York City, timed around registration, session breaks and the expo floor. We size the coffee to your attendance and schedule, run the station, and clean up after. Send your dates, venue and attendance for a quote within one business day.",
+      "We provide drip coffee service for tech conferences in New York City, with batches timed to registration and the breaks between sessions, which is when the lines form. Multi-day events are planned and quoted per day. Send your dates, venue and expected attendance and we'll reply by the next business day.",
     exampleGuests: 300,
     exampleDays: 1,
     why: [
@@ -102,12 +102,12 @@ export const eventPages: EventPage[] = [
     slug: "demo-days",
     eventType: "Demo day",
     name: "Demo day coffee catering",
-    title: "Coffee Catering for Demo Days and Pitch Events in NYC",
+    title: "Demo Day Coffee Catering in NYC",
     description:
-      "Coffee catering for startup demo days, pitch nights and investor events in New York City. A polished coffee station for founders and guests. Quote in one business day.",
+      "Coffee brewed on site for startup demo days, pitch nights and investor events in New York City. Set up and cleanup included.",
     h1: "Coffee catering for demo days and pitch events",
     answer:
-      "Vibe Coded Coffee caters startup demo days, pitch nights and investor events in New York City with freshly brewed drip coffee and a clean, friendly coffee station. We set up before guests arrive and clean up after. Send your date, venue and headcount and we reply with a quote within one business day.",
+      "We cater startup demo days, pitch nights and investor events in New York City. Investors and founders walk in to coffee that was brewed on site, not a lukewarm urn from the morning. A 100-guest demo day needs about 150 cups. Send your date, venue and guest list size for a quote.",
     exampleGuests: 100,
     exampleDays: 1,
     why: [
@@ -125,12 +125,12 @@ export const eventPages: EventPage[] = [
     slug: "team-offsites",
     eventType: "Team offsite",
     name: "Team offsite coffee catering",
-    title: "Coffee Catering for Team Offsites and Company Events in NYC",
+    title: "Team Offsite Coffee Catering in NYC",
     description:
-      "Fresh drip coffee for engineering offsites, all-hands and company events in New York City. Set up, stocked and cleaned up. Quote in one business day.",
+      "Drip coffee for engineering offsites, all-hands and company events at your NYC office or venue. One vendor, one quote, one invoice.",
     h1: "Coffee catering for team offsites and company events",
     answer:
-      "Vibe Coded Coffee brings fresh drip coffee to team offsites, all-hands meetings and company events in New York City. We set up the station, keep it full through planning sessions, and clean up after. Send your date, location and headcount for a quote within one business day.",
+      "We bring drip coffee to engineering offsites, all-hands meetings and company events anywhere in New York City: your office, a rented loft or an event space. One vendor, one quote, one invoice. Send your date, location and headcount and we'll price it by the next business day.",
     exampleGuests: 40,
     exampleDays: 1,
     why: [

@@ -3,7 +3,7 @@
     "grinding": {
       "file": "beans-grinding.mp4",
       "url": "https://assets.mixkit.co/videos/4985/4985-720.mp4",
-      "poster": "beans-grinding-poster.jpg",
+      "poster": "beans-grinding-poster.webp",
       "posterUrl": "https://assets.mixkit.co/videos/4985/4985-thumb-720-0.jpg",
       "width": 1280,
       "height": 720,
@@ -12,39 +12,39 @@
   },
   "images": {
     "heroCafe": {
-      "file": "cafe-counter-night.jpg",
-      "url": "https://images.unsplash.com/photo-1563891848101-44b95a146a3a?auto=format&fit=crop&q=75&w=2400&h=1350",
+      "file": "cafe-counter-night.webp",
+      "url": "https://images.unsplash.com/photo-1563891848101-44b95a146a3a?fm=webp&fit=crop&q=75&w=2400&h=1350",
       "width": 2400,
       "height": 1350,
       "alt": "A quiet coffee bar at night with an espresso machine under a single pendant light",
       "source": "https://unsplash.com/photos/turned-on-pendant-lamp-QqG7aNyJRVc"
     },
     "latteArt": {
-      "file": "latte-art-pour.jpg",
-      "url": "https://images.unsplash.com/photo-1547240089-0b75465f8e80?auto=format&fit=crop&q=75&w=1200&h=1500",
+      "file": "latte-art-pour.webp",
+      "url": "https://images.unsplash.com/photo-1547240089-0b75465f8e80?fm=webp&fit=crop&q=75&w=1200&h=1500",
       "width": 1200,
       "height": 1500,
       "alt": "Barista pouring steamed milk into a cappuccino, forming latte art",
       "source": "https://unsplash.com/photos/milk-being-poured-on-cappuccino-Lmz2D7ZLhJM"
     },
     "espresso": {
-      "file": "espresso-extraction.jpg",
-      "url": "https://images.unsplash.com/photo-1616388761741-a5936c6f61f6?auto=format&fit=crop&q=75&w=1200&h=1500",
+      "file": "espresso-extraction.webp",
+      "url": "https://images.unsplash.com/photo-1616388761741-a5936c6f61f6?fm=webp&fit=crop&q=75&w=1200&h=1500",
       "width": 1200,
       "height": 1500,
       "alt": "Espresso streaming from a portafilter",
       "source": "https://unsplash.com/photos/espresso-dripping-from-metal-portafilter-RZJRWMnd0DM"
     },
     "pourOver": {
-      "file": "chemex-pour-over.jpg",
-      "url": "https://images.unsplash.com/photo-1541469406036-71229832e06e?auto=format&fit=crop&q=75&w=1600&h=1200",
+      "file": "chemex-pour-over.webp",
+      "url": "https://images.unsplash.com/photo-1541469406036-71229832e06e?fm=webp&fit=crop&q=75&w=1600&h=1200",
       "width": 1600,
       "height": 1200,
       "alt": "Pour-over coffee brewing through a Chemex filter",
       "source": "https://unsplash.com/photos/person-pouring-water-in-clear-glass-jar-XP5zW2ngk9w"
     },
     "builder": {
-      "file": "couple-train-station.jpg",
+      "file": "couple-train-station.webp",
       "url": "https://images.pexels.com/photos/8555262/pexels-photo-8555262.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1400&h=1600",
       "width": 1400,
       "height": 1600,
@@ -52,8 +52,8 @@
       "source": "https://www.pexels.com/photo/a-couple-standing-on-the-train-station-8555262/"
     },
     "beans": {
-      "file": "beans-hopper.jpg",
-      "url": "https://images.unsplash.com/photo-1733924314370-616c4a5433b1?auto=format&fit=crop&q=75&w=1600&h=1000",
+      "file": "beans-hopper.webp",
+      "url": "https://images.unsplash.com/photo-1733924314370-616c4a5433b1?fm=webp&fit=crop&q=75&w=1600&h=1000",
       "width": 1600,
       "height": 1000,
       "alt": "Freshly roasted coffee beans in a grinder hopper",

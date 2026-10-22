@@ -88,7 +88,7 @@ export function BookingForm({ defaultEventType = "" }: { defaultEventType?: stri
           <textarea id={f("notes")} name="notes" rows={3} maxLength={2000} placeholder="Start and end times, how long you need coffee for, setup details…" />
         </div>
         {/* Honeypot: hidden from people, bots fill it in */}
-        <div className="hp" aria-hidden="true">
+        <div className="hp" inert>
           <label htmlFor={f("website")}>Website</label>
           <input id={f("website")} name="website" type="text" tabIndex={-1} autoComplete="off" />
         </div>

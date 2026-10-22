@@ -7,7 +7,7 @@ import { bookingSteps, catering, site } from "@/lib/site";
 
 const title = "Coffee Catering for Tech Events in NYC";
 const description =
-  "Coffee catering for tech events in New York City: hackathons, meetups, conferences, demo days and team offsites. Fresh drip coffee, setup and cleanup. Quote in one business day.";
+  "Coffee catering for NYC tech events: hackathons, meetups, conferences, demo days and offsites. Drip coffee brewed on site. Quote by the next business day.";
 
 export const metadata: Metadata = {
   title,
