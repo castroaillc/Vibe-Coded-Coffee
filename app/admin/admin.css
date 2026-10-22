@@ -205,3 +205,10 @@ a.row:hover .row__title { color: var(--electric-2); }
 .adm-signin h1 { font-family: var(--font-display-stack); font-weight: 500; font-size: 24px; margin-bottom: 4px; }
 .adm-signin p { color: var(--muted); margin-bottom: 18px; }
 .adm-signin form { display: grid; gap: 12px; }
+
+/* Quote calculator */
+.pricing-h3 { font-size: 14px; font-weight: 600; color: var(--muted); margin: 18px 0 8px; }
+.table .cell { width: 88px; height: 34px; padding: 0 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--white); font: inherit; font-size: 14px; text-align: inherit; }
+.table .cell--wide { width: 100%; min-width: 220px; }
+.table select.cell { width: auto; }
+.table-scroll { overflow-x: auto; }

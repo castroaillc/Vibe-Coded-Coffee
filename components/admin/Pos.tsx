@@ -72,6 +72,7 @@ export function Pos({ products, sales, events, todayYmd }: { products: ProductRo
           <p>Today: {money(salesTotal)} from {sales.length} sales</p>
         </div>
         <div className="adm-head__actions">
+          <a className="b b--ghost" href="/admin/pricing">Quote an event</a>
           <button className="b b--ghost" onClick={() => setEditing(true)}>Edit menu</button>
         </div>
       </header>

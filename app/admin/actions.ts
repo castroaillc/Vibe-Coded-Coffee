@@ -9,6 +9,7 @@ import { toCents } from "@/lib/admin/format";
 import { db, schema } from "@/lib/db";
 import { EVENT_STATUSES, PAYMENT_METHODS, PAYMENT_STATUSES, type SaleItem } from "@/lib/db/schema";
 import { id } from "@/lib/server/ids";
+import { DEFAULT_PRICING, SERVICE_IDS, type PricingSettings, type Supply, type SupplyUse } from "@/lib/pricing";
 
 const { client, cateringEvent, clientNote, product, sale } = schema;
 
@@ -227,3 +228,58 @@ export async function voidSale(saleId: string) {
   await db.delete(sale).where(eq(sale.id, saleId));
   refresh();
 }
+
+// ── Pricing ────────────────────────────────────────────────
+const num = (v: unknown, max = 1_000_000) => Math.min(max, Math.max(0, Number(v) || 0));
+const USES: SupplyUse[] = ["coffee", "per_cup", "per_guest", "per_event"];
+
+/** Saves supply prices, labor and service rates for the quote calculator. */
+export async function savePricing(input: PricingSettings) {
+  await requireAdmin();
+  const clean: PricingSettings = {
+    cupsPerGuest: num(input.cupsPerGuest, 10) || DEFAULT_PRICING.cupsPerGuest,
+    cupOz: num(input.cupOz, 40) || DEFAULT_PRICING.cupOz,
+    ratio: num(input.ratio, 30) || DEFAULT_PRICING.ratio,
+    laborRate: num(input.laborRate, 1000),
+    travelPerDay: num(input.travelPerDay, 10_000),
+    services: Object.fromEntries(
+      SERVICE_IDS.map((sid) => {
+        const v = input.services?.[sid] ?? DEFAULT_PRICING.services[sid];
+        return [sid, {
+          label: String(v.label ?? DEFAULT_PRICING.services[sid].label).slice(0, 60),
+          pricePerGuest: num(v.pricePerGuest, 1000),
+          minimum: num(v.minimum),
+          serviceHours: num(v.serviceHours, 24),
+          handlingHours: num(v.handlingHours, 24),
+        }];
+      }),
+    ) as PricingSettings["services"],
+    supplies: (input.supplies ?? []).slice(0, 40).map((x, i): Supply => ({
+      id: String(x.id || `s${i}`).slice(0, 40),
+      name: String(x.name ?? "").trim().slice(0, 120) || "Supply",
+      packPrice: num(x.packPrice),
+      packQty: num(x.packQty),
+      unit: String(x.unit ?? "").slice(0, 20),
+      use: USES.includes(x.use) ? x.use : "per_cup",
+      perUse: num(x.perUse, 1000),
+      estimate: Boolean(x.estimate),
+    })),
+  };
+  const { appSetting } = schema;
+  await db
+    .insert(appSetting)
+    .values({ key: "pricing", value: clean, updatedAt: new Date() })
+    .onConflictDoUpdate({ target: appSetting.key, set: { value: clean, updatedAt: new Date() } });
+  revalidatePath("/admin/pricing");
+  return { ok: true as const };
+}
+
+/** "Use this price": sets an event's quote from the calculator. */
+export async function applyQuote(eventId: string, priceCents: number) {
+  await requireAdmin();
+  const cents = Math.max(0, Math.round(Number(priceCents) || 0));
+  await db.update(cateringEvent).set({ quoteCents: cents }).where(eq(cateringEvent.id, eventId));
+  refresh();
+  return { ok: true as const };
+}
+

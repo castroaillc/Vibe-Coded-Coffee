@@ -328,3 +328,10 @@ export const sale = pgTable(
   },
   (t) => [index("sale_created_idx").on(t.createdAt)],
 );
+
+/** Small key → JSON settings store for the admin (e.g. "pricing": supply prices, labor rate, service rates). */
+export const appSetting = pgTable("app_setting", {
+  key: text("key").primaryKey(),
+  value: jsonb("value").notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});

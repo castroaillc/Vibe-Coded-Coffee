@@ -54,7 +54,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
           <section className="card">
             <h2>Money <PaymentBadge status={e.paymentStatus} /></h2>
             <dl className="kv">
-              <dt>Quote</dt><dd>{money(e.quoteCents)}</dd>
+              <dt>Quote</dt><dd>{money(e.quoteCents)} · <Link href={`/admin/pricing?event=${e.id}`}>Price this event</Link></dd>
               <dt>Paid</dt><dd>{money(e.paidCents)}</dd>
               <dt>Balance</dt><dd><strong>{money(balance)}</strong></dd>
               <dt>POS at event</dt><dd>{money(posTotal)} · {sales.length} sales</dd>

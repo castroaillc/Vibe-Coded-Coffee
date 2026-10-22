@@ -2,6 +2,7 @@ import { and, asc, desc, eq, getTableColumns, gte, isNotNull, ne, sql } from "dr
 import { db, schema } from "@/lib/db";
 import { calculateGroundCoffee } from "@/lib/brew";
 import { CUPS_PER_GUEST, EVENT_CUP_OZ } from "./format";
+import { withDefaults, type PricingSettings } from "@/lib/pricing";
 
 const { client, cateringEvent, clientNote, product, sale } = schema;
 
@@ -125,4 +126,10 @@ export async function qrFunnel() {
       .groupBy(schema.waitlist.qrCode),
   ]);
   return { scans: new Map(scans.map((r) => [r.code, r.n])), leads: new Map(leads.map((r) => [r.code ?? "", r.n])) };
+}
+
+// ── Pricing (event quote calculator) ────────────────────────
+export async function getPricing(): Promise<PricingSettings> {
+  const [row] = await db.select().from(schema.appSetting).where(eq(schema.appSetting.key, "pricing"));
+  return withDefaults(row?.value as Partial<PricingSettings> | undefined);
 }

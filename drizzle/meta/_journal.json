@@ -15,6 +15,13 @@
       "when": 1792621890100,
       "tag": "0001_marketing_leads",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792632463118,
+      "tag": "0002_app_settings",
+      "breakpoints": true
     }
   ]
 }
