@@ -1,5 +1,6 @@
 // ─────────────────────────────────────────────────────────────
-//  Landing pages for each kind of tech event, at /coffee-catering/<slug>.
+//  Landing pages for each kind of event, at /coffee-catering/<slug>.
+//  Corporate pages come first (enterprise positioning, Oct 2026); tech events stay a vertical.
 //  Each page answers the question an organizer would type or ask an AI
 //  ("coffee catering for a hackathon in NYC") in its first two sentences,
 //  then gives specifics, planning numbers and an FAQ.
@@ -9,6 +10,8 @@
 export type EventPage = {
   slug: string;
   eventType: string; // matches an option on the booking form
+  label?: string; // singular noun used in headings ("corporate event"); defaults to eventType lowercased
+  pills?: string[]; // labels in `audiences` (lib/site.ts) that link here, when they aren't just eventType + "s"
   name: string; // "Hackathon coffee catering"
   title: string; // <title>
   description: string; // meta description
@@ -22,6 +25,57 @@ export type EventPage = {
 };
 
 export const eventPages: EventPage[] = [
+  {
+    slug: "corporate-events",
+    eventType: "All-hands / town hall",
+    label: "corporate event",
+    pills: ["All-hands meetings", "Client events", "Trainings"],
+    name: "Corporate event coffee catering",
+    title: "Corporate Event Coffee Catering in NYC",
+    description:
+      "A staffed coffee station for all-hands, town halls, trainings and client events at your NYC office or venue. Packages from $500. One invoice.",
+    h1: "Coffee catering for corporate events in New York City",
+    answer:
+      "Vibe Coded Coffee caters corporate events in New York City: all-hands meetings, town halls, trainings, workshops and client events, at your office or an event venue. We set up a staffed station and brew drip coffee on site, from $500 for up to 25 guests to $1,195 for up to 100. Send your date, location and headcount and you'll have a written quote by the next business day.",
+    exampleGuests: 80,
+    exampleDays: 1,
+    why: [
+      { title: "Brewed at your office", body: "We set up in your conference room, kitchen or lobby and brew on site. No boxed coffee going cold on a side table." },
+      { title: "Staffed start to finish", body: "One of us runs the station for your booked hours, so your office team isn't refilling carafes during the meeting." },
+      { title: "Built for procurement", body: "A written quote, one invoice per booking and a single point of contact. Send vendor forms with your request." },
+      { title: "Timed to your agenda", body: "Arrival, the first break, after lunch. We plan batches around your schedule so the line stays short." },
+    ],
+    planning: "For a half-day meeting we plan about 1.5 cups per guest. Tell us your start and end times and any breaks.",
+    faqs: [
+      { q: "How much does coffee catering for a corporate event cost?", a: "Packages start at $500 for up to 25 guests and 2 hours, $695 for up to 50 guests and 3 hours, and $1,195 for up to 100 guests and 4 hours. Larger and multi-day events are quoted." },
+      { q: "What do you need from our building?", a: "A table, access to a standard outlet and, if your building requires it, a freight or service entrance and a certificate of insurance request. Tell us about building access when you book." },
+      { q: "Can you invoice our company?", a: "Yes. You get one invoice per booking. If you need a W-9 or vendor onboarding forms, send them with your request." },
+    ],
+  },
+  {
+    slug: "recurring-office-events",
+    eventType: "Recurring office event",
+    label: "recurring office event",
+    name: "Recurring office coffee catering",
+    title: "Recurring Office Coffee Catering in NYC",
+    description:
+      "Coffee catering on a schedule for NYC offices: weekly all-hands, monthly meetups and training series. One quote for the series.",
+    h1: "Recurring coffee catering for NYC offices",
+    answer:
+      "We cater recurring office events in New York City, such as a weekly all-hands, a monthly community meetup or a quarterly training series. You book the series once and we show up with the same staffed coffee station every time. Send your schedule, location and typical headcount and we'll quote the series by the next business day.",
+    exampleGuests: 50,
+    exampleDays: 1,
+    why: [
+      { title: "Book once", body: "One quote covers the series. No re-sending the same request every week." },
+      { title: "Same setup every time", body: "We learn your building, your room and your crowd, so setup gets faster each visit." },
+      { title: "Easy to budget", body: "A set price per event, invoiced the way your finance team prefers to receive it." },
+    ],
+    planning: "Most recurring events run one to three hours. We plan about 1.5 cups per guest and adjust as we learn your turnout.",
+    faqs: [
+      { q: "Do you offer daily office coffee service?", a: "We focus on events: a staffed station for a set number of hours. For a recurring meeting, training or meetup, tell us the schedule and we'll quote the series." },
+      { q: "Can we change the headcount between events?", a: "Yes. Tell us the expected headcount a few days before each event." },
+    ],
+  },
   {
     slug: "hackathons",
     eventType: "Hackathon",

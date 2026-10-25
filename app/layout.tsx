@@ -17,7 +17,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swa
 const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
 
 // Kept under ~60 characters so search results show it in full.
-const title = `Coffee Catering for Tech Events in NYC | ${site.name}`;
+const title = `Corporate Coffee Catering in NYC | ${site.name}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -26,16 +26,17 @@ export const metadata: Metadata = {
   applicationName: site.name,
   keywords: [
     "Vibe Coded Coffee",
+    "corporate coffee catering NYC",
+    "enterprise coffee catering",
+    "office coffee catering NYC",
     "coffee catering NYC",
-    "coffee catering Brooklyn",
-    "event coffee catering",
-    "hackathon catering",
+    "coffee bar catering for corporate events",
+    "staffed coffee station NYC",
+    "all-hands catering NYC",
+    "conference coffee service NYC",
+    "coffee catering Manhattan",
     "tech event catering NYC",
-    "meetup coffee catering",
-    "corporate coffee catering",
-    "drip coffee catering",
-    "coffee for conferences",
-    "coffee subscription NYC",
+    "hackathon catering",
   ],
   alternates: {
     canonical: "/",
@@ -65,7 +66,7 @@ export const metadata: Metadata = {
     "max-video-preview": -1,
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
   },
-  category: "food & drink",
+  category: "business",
   // Search Console / Bing Webmaster verification codes (set in Vercel; blank skips the tag).
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION || undefined,

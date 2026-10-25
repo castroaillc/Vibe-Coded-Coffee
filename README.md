@@ -1,7 +1,8 @@
 # Vibe Coded Coffee — website + ordering app
 
-The B2B landing page (`/`: coffee catering for tech events, with a "Book us for your event" form and a
-"storefront coming soon" waitlist) and the members' ordering app (`/order`), in one Next.js project.
+The B2B website for enterprise coffee catering in NYC (`/`: staffed, brewed-on-site coffee stations for
+all-hands, client events, conferences, trainings, offsites and tech events, with published packages and a
+"Get a quote" form) and the members' ordering app (`/order`, not linked from the public site), in one Next.js project.
 
 ## Run it on your Mac
 
@@ -21,7 +22,7 @@ The first `pnpm dev` also downloads the stock photos and videos into `public/med
 
 ## Edit the text
 
-All copy — location, catering offer, what's included, booking steps, event types, storefront offer and FAQ — is in **`lib/site.ts`**.
+All copy — location, catering offer, packages, what's included, booking steps, event types and FAQ — is in **`lib/site.ts`**.
 The page, the Google structured data and `/llms.txt` all update from that one file.
 
 ## Go live (Vercel is easiest)
@@ -34,7 +35,7 @@ The page, the Google structured data and `/llms.txt` all update from that one fi
 ## What's built in for SEO & GEO (AI search)
 
 - Title, description, canonical URL, Open Graph + Twitter share image (`public/opengraph-image.png`)
-- JSON-LD structured data: CafeOrCoffeeShop, WebSite, WebPage, Offer (price 0, pre-order) and FAQPage
+- JSON-LD structured data: Organization/FoodEstablishment, Service with one Offer per package, WebSite, WebPage and FAQPage
 - `sitemap.xml`, `robots.txt` (welcomes Google, Bing and AI crawlers: GPTBot, ClaudeBot, PerplexityBot…), web manifest, favicons
 - `/llms.txt` — a plain-text fact sheet for AI assistants
 - Answer-first "quick facts" strip and a visible FAQ, so AI engines can quote clear facts

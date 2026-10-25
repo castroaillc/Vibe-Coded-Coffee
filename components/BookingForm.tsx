@@ -59,7 +59,7 @@ export function BookingForm({ defaultEventType = "" }: { defaultEventType?: stri
           <input id={f("email")} name="email" type="email" autoComplete="email" inputMode="email" required maxLength={254} />
         </div>
         <div className="booking__field">
-          <label htmlFor={f("company")}>Company or community <span>optional</span></label>
+          <label htmlFor={f("company")}>Company <span>optional</span></label>
           <input id={f("company")} name="company" type="text" autoComplete="organization" maxLength={120} />
         </div>
         <div className="booking__field">
@@ -83,11 +83,11 @@ export function BookingForm({ defaultEventType = "" }: { defaultEventType?: stri
         </div>
         <div className="booking__field">
           <label htmlFor={f("location")}>Venue or neighborhood</label>
-          <input id={f("location")} name="location" type="text" required maxLength={200} placeholder="e.g. Brooklyn Navy Yard" />
+          <input id={f("location")} name="location" type="text" required maxLength={200} placeholder="e.g. our office at 5th Ave & 23rd St" />
         </div>
         <div className="booking__field booking__field--wide">
           <label htmlFor={f("notes")}>Anything else? <span>optional</span></label>
-          <textarea id={f("notes")} name="notes" rows={3} maxLength={2000} placeholder="Start and end times, how long you need coffee for, setup details…" />
+          <textarea id={f("notes")} name="notes" rows={3} maxLength={2000} placeholder="Start and end times, building access, PO or vendor forms you need…" />
         </div>
         {/* Honeypot: hidden from people, bots fill it in */}
         <div className="hp" inert>

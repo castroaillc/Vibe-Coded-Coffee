@@ -5,9 +5,9 @@ import { eventPagePath, eventPages } from "@/lib/event-pages";
 import { breadcrumbJsonLd, jsonLdScript } from "@/lib/schema";
 import { bookingSteps, catering, site } from "@/lib/site";
 
-const title = "Coffee Catering for Tech Events in NYC";
+const title = "Corporate & Event Coffee Catering in NYC";
 const description =
-  "Coffee catering for NYC tech events: hackathons, meetups, conferences, demo days and offsites. Drip coffee brewed on site. Quote by the next business day.";
+  "Coffee catering for NYC companies: all-hands, client events, conferences, trainings, offsites and tech events. Staffed and brewed on site. From $500.";
 
 export const metadata: Metadata = {
   title,
@@ -23,7 +23,7 @@ export default function CoffeeCatering() {
       breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Coffee catering", path: "/coffee-catering" }]),
       {
         "@type": "ItemList",
-        name: "Coffee catering by type of tech event",
+        name: "Coffee catering by type of event",
         itemListElement: eventPages.map((p, i) => ({ "@type": "ListItem", position: i + 1, name: p.name, url: `${site.url}${eventPagePath(p.slug)}` })),
       },
     ],
@@ -38,10 +38,10 @@ export default function CoffeeCatering() {
         <section className="page-hero" aria-labelledby="page-title">
           <div className="container container--narrow">
             <p className="kicker kicker--blue">Coffee catering · New York City</p>
-            <h1 id="page-title" className="page-hero__title">Coffee catering for tech events in NYC</h1>
+            <h1 id="page-title" className="page-hero__title">Coffee catering for companies in NYC</h1>
             <p className="lede lede--light page-hero__answer">
-              {site.name} is a New York City coffee caterer that only does tech events: hackathons, meetups, conferences, demo days and team
-              offsites. {catering.summary}
+              {site.name} is an enterprise coffee caterer in New York City. We run staffed coffee stations for all-hands meetings, client
+              events, conferences, trainings and offsites, plus the hackathons, meetups and demo days we started with. {catering.summary}
             </p>
             <div className="page-hero__actions">
               <Link className="btn" href="/#book">Get a quote</Link>

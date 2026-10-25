@@ -1,9 +1,9 @@
 import { eventPagePath, eventPages } from "./event-pages";
 import { videos } from "./media";
-import { catering, faqs, offer, site } from "./site";
+import { catering, faqs, packages, packagesNote, site } from "./site";
 
 /** Structured data (schema.org JSON-LD) so search engines and AI answer
- *  engines can understand the business, the catering service, the storefront offer and the FAQ. */
+ *  engines can understand the business, the catering service, its packages and the FAQ. */
 export function buildJsonLd() {
   const orgId = `${site.url}/#organization`;
   return {
@@ -33,8 +33,9 @@ export function buildJsonLd() {
           { "@type": "City", name: "New York City" },
           ...site.boroughs.map((name) => ({ "@type": "AdministrativeArea", name, containedInPlace: { "@type": "City", name: "New York City" } })),
         ],
-        knowsAbout: ["Coffee catering", "Hackathon catering", "Tech event catering", "Conference coffee service", "Drip coffee"],
-        contactPoint: { "@type": "ContactPoint", contactType: "Catering quotes", email: site.email, areaServed: "US-NY", availableLanguage: "English" },
+        knowsAbout: ["Corporate coffee catering", "Office event catering", "Conference coffee service", "Staffed coffee stations", "Tech event catering", "Drip coffee"],
+        priceRange: "$500–$1,195+",
+        contactPoint: { "@type": "ContactPoint", contactType: "Sales", email: site.email, areaServed: "US-NY", availableLanguage: "English" },
         sameAs: Object.values(site.social),
       },
       {
@@ -45,11 +46,22 @@ export function buildJsonLd() {
         description: catering.summary,
         provider: { "@id": orgId },
         areaServed: { "@type": "City", name: site.serviceArea },
-        audience: { "@type": "BusinessAudience", name: "Tech event organizers" },
+        audience: { "@type": "BusinessAudience", name: "Companies, office managers and corporate event planners" },
         url: `${site.url}/#book`,
+        offers: packages.map((p) => ({
+          "@type": "Offer",
+          "@id": `${site.url}/#package-${p.name.toLowerCase().replace(/\s+/g, "-")}`,
+          name: `${p.name} package`,
+          description: `Up to ${p.guests} guests, ${p.hours} hours of staffed coffee service. ${packagesNote}`,
+          price: String(p.price),
+          priceCurrency: "USD",
+          url: `${site.url}/#packages`,
+          eligibleRegion: { "@type": "City", name: site.serviceArea },
+          seller: { "@id": orgId },
+        })),
         hasOfferCatalog: {
           "@type": "OfferCatalog",
-          name: "Coffee catering by type of tech event",
+          name: "Coffee catering by type of event",
           itemListElement: eventPages.map((p) => ({
             "@type": "Offer",
             itemOffered: { "@type": "Service", "@id": `${site.url}${eventPagePath(p.slug)}#service`, name: p.name, url: `${site.url}${eventPagePath(p.slug)}` },
@@ -73,18 +85,6 @@ export function buildJsonLd() {
         isPartOf: { "@id": `${site.url}/#website` },
         about: { "@id": orgId },
         dateModified: site.lastUpdated,
-      },
-      {
-        "@type": "Offer",
-        "@id": `${site.url}/#offer`,
-        name: offer.name,
-        description: offer.summary,
-        price: "0",
-        priceCurrency: "USD",
-        availability: "https://schema.org/PreOrder",
-        url: `${site.url}/#waitlist`,
-        seller: { "@id": orgId },
-        eligibleRegion: { "@type": "City", name: "New York City" },
       },
       {
         "@type": "VideoObject",

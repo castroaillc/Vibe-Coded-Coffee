@@ -21,7 +21,7 @@ export default function FreeCoffee() {
         <h1 className="free__title">Your coffee&apos;s on us.</h1>
         <p className="free__lede">
           Join the Vibe Coded list with your email or phone, then show the next screen at the coffee station. You&apos;ll also hear first
-          about our events and the storefront opening.
+          about our events.
         </p>
         <FreeCoffeeForm />
       </main>

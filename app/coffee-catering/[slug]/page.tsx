@@ -27,7 +27,8 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
   const page = findEventPage((await params).slug);
   if (!page) notFound();
   const path = eventPagePath(page.slug);
-  const plural = `${page.eventType.toLowerCase()}s`;
+  const noun = page.label ?? page.eventType.toLowerCase();
+  const plural = `${noun}s`;
   const example = planCoffee(page.exampleGuests, page.exampleDays);
   const sizes = [page.exampleGuests / 2, page.exampleGuests, page.exampleGuests * 2].map((g) => planCoffee(Math.round(g), page.exampleDays));
   // Page FAQ plus the general ones every organizer asks (booking lead time, service area).
@@ -37,7 +38,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
     { name: "Coffee catering", path: "/coffee-catering" },
     { name: page.name, path },
   ];
-  const jsonLd = eventServiceJsonLd({ path, name: page.name, description: page.description, audience: `${page.eventType} organizers`, faqs, crumbs });
+  const jsonLd = eventServiceJsonLd({ path, name: page.name, description: page.description, audience: `${noun[0].toUpperCase()}${noun.slice(1)} organizers`, faqs, crumbs });
 
   return (
     <>
@@ -80,13 +81,13 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
 
         <section className="section section--white" aria-labelledby="plan-title">
           <div className="container container--narrow">
-            <h2 id="plan-title" className="h2">How much coffee for a {page.eventType.toLowerCase()}?</h2>
+            <h2 id="plan-title" className="h2">How much coffee for a {noun}?</h2>
             <p className="lede">
               {page.planning} For example, {page.exampleGuests} guests over {page.exampleDays} {page.exampleDays === 1 ? "day" : "days"} works out to about{" "}
               {example.cups} twelve-ounce cups, roughly {example.gallons} gallons of coffee brewed from {example.lb} lb of ground coffee.
             </p>
             <table className="plan-table">
-              <caption>Estimated coffee for a {page.eventType.toLowerCase()} ({page.exampleDays} {page.exampleDays === 1 ? "day" : "days"}, about 1.5 cups per guest per day)</caption>
+              <caption>Estimated coffee for a {noun} ({page.exampleDays} {page.exampleDays === 1 ? "day" : "days"}, about 1.5 cups per guest per day)</caption>
               <thead><tr><th scope="col">Guests</th><th scope="col">12 oz cups</th><th scope="col">Gallons</th><th scope="col">Ground coffee</th></tr></thead>
               <tbody>
                 {sizes.map((s) => (
@@ -107,7 +108,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
           <div className="container book">
             <div>
               <p className="kicker kicker--blue">Get a quote</p>
-              <h2 id="book-title" className="h2">Book coffee for your {page.eventType.toLowerCase()}</h2>
+              <h2 id="book-title" className="h2">Book coffee for your {noun}</h2>
               <p className="lede">Tell us the date, venue and headcount. We reply within one business day with a price and what&apos;s included.</p>
               <p className="book__contact">Prefer email? Write to <a href={`mailto:${site.email}`}>{site.email}</a></p>
             </div>
@@ -118,7 +119,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
         <section className="section section--white" id="faq" aria-labelledby="faq-title">
           <div className="container faq-layout">
             <div>
-              <h2 id="faq-title" className="h2">{page.eventType} coffee questions</h2>
+              <h2 id="faq-title" className="h2">{noun[0].toUpperCase()}{noun.slice(1)} coffee questions</h2>
               <p className="faq-layout__note">Something else? Email <a href={`mailto:${site.email}`}>{site.email}</a></p>
             </div>
             <div className="faq">

@@ -1,62 +1,83 @@
 // ─────────────────────────────────────────────────────────────
 //  All page copy lives here. Edit this file to change the text,
-//  location, services, offer and FAQ — the page, search-engine
+//  location, services, packages and FAQ — the page, search-engine
 //  data (JSON-LD) and llms.txt all read from it.
+//
+//  Positioning (Oct 2026): enterprise coffee catering in NYC.
+//  Companies, office managers, workplace teams and event planners
+//  book a staffed coffee station brewed on site. Tech events stay a
+//  core vertical. No storefront messaging on the public site.
+//  Keep every claim true: no invented clients, reviews or certifications.
 // ─────────────────────────────────────────────────────────────
 
 export const site = {
   name: "Vibe Coded Coffee",
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://vibecodedcoffee.com").replace(/\/$/, ""),
-  tagline: "Good coffee. Better builders.",
+  tagline: "Coffee catering for teams that build.",
   description:
-    "Vibe Coded Coffee is a Brooklyn coffee caterer for tech events in New York City. We brew drip coffee on site at hackathons, meetups, demo days, conferences and team offsites, using a medium-roast house blend roasted weekly in NYC. Send your date, venue and headcount for a quote.",
+    "Vibe Coded Coffee is an enterprise coffee catering company in New York City. We set up a staffed coffee station at your office or venue and brew drip coffee on site for all-hands meetings, client events, conferences, trainings, offsites and tech events. Packages start at $500 for up to 25 guests, with custom quotes for larger and recurring events.",
   /** Search-result snippet: keep under ~155 characters. */
   metaDescription:
-    "Drip coffee brewed on site for NYC hackathons, meetups, demo days and offsites by a Brooklyn team. Send your headcount, get a quote next business day.",
+    "Corporate coffee catering in NYC. A staffed station brewed on site at your office or venue. Packages from $500. Quote by the next business day.",
   city: "Brooklyn",
   region: "NY",
   country: "US",
   locationLabel: "Brooklyn, New York",
   serviceArea: "New York City",
-  /** Brooklyn, approximate (no storefront address yet). Used for geo meta tags and JSON-LD. */
+  /** Brooklyn, approximate (service-area business, no public address). Used for geo meta tags and JSON-LD. */
   geo: { latitude: 40.6782, longitude: -73.9442 },
   /** Where we cater, for search engines. */
-  boroughs: ["Brooklyn", "Manhattan", "Queens", "The Bronx", "Staten Island"],
+  boroughs: ["Manhattan", "Brooklyn", "Queens", "The Bronx", "Staten Island"],
   email: "hello@vibecodedcoffee.com",
   social: {
     instagram: "https://www.instagram.com/vibecodedcoffee",
   },
-  lastUpdated: "2026-10-21",
+  lastUpdated: "2026-10-25",
 } as const;
 
-/** The B2B catering offer: what event organizers book. */
+/** The core offer: what companies book. */
 export const catering = {
-  name: "Coffee catering for tech events",
-  short: "Coffee catering for tech events",
-  headline: "Coffee for the people building the future.",
+  name: "Enterprise coffee catering in NYC",
+  short: "Corporate coffee catering",
+  headline: "Coffee catering for teams that build.",
   summary:
-    "Drip coffee for hackathons, meetups, demo days and offsites anywhere in New York City. Send the date, venue and headcount and you'll have a price by the next business day.",
+    "A staffed coffee station, brewed on site at your office or venue anywhere in New York City. Send the date, location and headcount and you'll have a quote by the next business day.",
 };
 
 /** Kinds of event on the booking form (also accepted by /api/booking). */
-export const eventTypes = ["Hackathon", "Meetup", "Demo day", "Conference", "Team offsite", "Launch party", "Other"] as const;
+export const eventTypes = [
+  "All-hands / town hall",
+  "Client or customer event",
+  "Conference",
+  "Training or workshop",
+  "Team offsite",
+  "Hackathon",
+  "Meetup",
+  "Demo day",
+  "Launch party",
+  "Recurring office event",
+  "Other",
+] as const;
+
+/** Who books us. Shown on the page and in llms.txt. */
+export const buyers = ["Office and workplace managers", "Event and executive assistants", "People and culture teams", "Event planners and agencies"];
 
 /** What an organizer gets. `icon` is one of the names in components/Icons.tsx. */
 export const services = [
   {
     icon: "cup",
     title: "Drip coffee, brewed on site",
-    body: "A medium-roast house blend from Brooklyn Coffee, roasted weekly in NYC. We grind it the morning of your event and brew a new batch whenever the last one runs low. Decaf on request.",
+    body: "A medium-roast house blend from Brooklyn Coffee, roasted weekly in NYC. Ground the day of your event and brewed in small batches at your venue, never dropped off in a box. Decaf on request.",
   },
   {
     icon: "people",
-    title: "Sized to your headcount",
-    body: "We plan 1.5 twelve-ounce cups per guest per day. For 100 guests that's about 150 cups and 7 lb of coffee. We've sized it for 20-person meetups and 500-person hackathons.",
+    title: "A staffed station",
+    body: "One of us runs the station for your booked hours: brewing, refilling, restocking cups and wiping down, so your team doesn't have to.",
   },
   {
     icon: "laptop",
-    title: "Made for tech events",
-    body: "Hackathons run overnight. Keynotes start at 9. Demo days run long. Send us the schedule and we'll plan the coffee around it, hour by hour.",
+    title: "Easy for procurement",
+    body: "A written quote, one invoice per booking and a single point of contact. Send your vendor onboarding forms with your request and we'll complete them.",
   },
   {
     icon: "bulb",
@@ -65,56 +86,65 @@ export const services = [
   },
 ] as const;
 
+/** Published starting packages. Larger, multi-day and recurring events are quoted. */
+export const packages = [
+  { name: "Small team", price: 500, guests: 25, hours: 2, fits: "Team meetings, trainings and client visits" },
+  { name: "Department", price: 695, guests: 50, hours: 3, fits: "All-hands, workshops and meetups" },
+  { name: "Company", price: 1195, guests: 100, hours: 4, fits: "Town halls, launches and conferences" },
+] as const;
+
+export const packagesNote =
+  "Every package includes the coffee, a staffed station, cups and condiments, setup and cleanup. Over 100 guests, multi-day events and recurring bookings are quoted to your schedule.";
+
 export const craft = [
-  { title: "Ground that morning", body: "Whole beans, ground the day of your event. Not a bag that's been open since last week." },
+  { title: "Ground that day", body: "Whole beans, ground the day of your event. Not a bag that's been open since last week." },
   { title: "Brewed at 16:1", body: "Sixteen parts water to one part coffee, by weight. Small batches, so nothing sits on a burner for hours." },
-  { title: "Someone at the table", body: "On staffed bookings, one of us runs the station: refilling, restocking cups and wiping down." },
+  { title: "Someone at the table", body: "Every booking is staffed. One of us runs the station: refilling, restocking cups and wiping down." },
 ];
 
 export const bookingSteps = [
-  { title: "Tell us about your event", body: "Date, location and headcount. It takes a minute and there's no commitment." },
-  { title: "Get a quote", body: "We reply within one business day with a price and what's included." },
-  { title: "We bring the coffee", body: "We arrive early, set up the station, keep it full and clean up after." },
+  { title: "Tell us about your event", body: "Date, location, headcount and hours. It takes a minute and there's no commitment." },
+  { title: "Get a written quote", body: "We reply within one business day with a price, what's included and any vendor paperwork we need from you." },
+  { title: "We run the coffee", body: "We arrive early, set up at your office or venue, keep the station full and clean up after. One invoice follows." },
 ];
 
-export const audiences = ["Hackathons", "Meetups", "Demo days", "Conferences", "Team offsites", "Launch parties"];
-
-/** Coming soon: the storefront / cart, with a free first month of the coffee-a-day membership for early sign-ups. */
-export const offer = {
-  name: "Vibe Coded Membership — first month free",
-  short: "First month free",
-  headline: "A Vibe Coded storefront is coming.",
-  summary:
-    "Our own coffee spot is coming soon, with a coffee-a-day membership. Join the list and your first month is free when we launch. No card needed.",
-};
+export const audiences = ["All-hands meetings", "Client events", "Conferences", "Trainings", "Team offsites", "Hackathons", "Meetups", "Demo days"];
 
 export const faqs = [
   {
     q: "What is Vibe Coded Coffee?",
-    a: "Vibe Coded Coffee is a coffee catering company for tech events in New York City. We bring freshly brewed drip coffee to hackathons, meetups, demo days, conferences and team offsites, and handle setup and cleanup.",
+    a: "Vibe Coded Coffee is an enterprise coffee catering company in New York City. We set up a staffed coffee station at your office or event venue and brew drip coffee on site for all-hands meetings, client events, conferences, trainings, offsites and tech events, then handle cleanup.",
   },
   {
-    q: "How do I book Vibe Coded Coffee for my event?",
-    a: "Fill in the booking form on this page with your event date, location and headcount. We reply within one business day with a quote.",
+    q: "How much does corporate coffee catering cost in NYC?",
+    a: "Our packages start at $500 for up to 25 guests and 2 hours, $695 for up to 50 guests and 3 hours, and $1,195 for up to 100 guests and 4 hours. Each includes the coffee, a staffed station, cups and condiments, setup and cleanup. Larger, multi-day and recurring events get a custom quote.",
   },
   {
-    q: "Do you cater hackathons?",
-    a: "Yes. Hackathons are what we're built for. We plan coffee per day of hacking, brew in small batches so it stays fresh through late nights and demos, and handle setup and cleanup. Send your date, venue and headcount for a quote.",
+    q: "How do I book Vibe Coded Coffee?",
+    a: "Fill in the booking form on this page with your date, location, headcount and hours, or email hello@vibecodedcoffee.com. We reply within one business day with a written quote.",
+  },
+  {
+    q: "Can you cater at our office?",
+    a: "Yes. Most corporate bookings are at the client's office: a conference room, kitchen or lobby. We need a table, access to a standard outlet and a freight or service entrance if your building requires one. Tell us about building access when you book.",
+  },
+  {
+    q: "Do you work with our procurement and accounts payable process?",
+    a: "Yes. You get a written quote and one invoice per booking. If your company needs a W-9, a certificate of insurance or vendor onboarding forms, send them with your request and we'll tell you what we can provide.",
+  },
+  {
+    q: "Do you offer recurring coffee service?",
+    a: "Yes, for recurring events such as a weekly all-hands, monthly meetup or quarterly training. Tell us the schedule and we'll quote the series.",
   },
   {
     q: "What do you serve?",
-    a: "Drip coffee, brewed on site from a medium-roast house blend roasted weekly in NYC. Decaf on request. Cups with lids and sleeves, creamer, sugar, sweeteners, stirrers and napkins are included. Espresso drinks will come later, with our coffee cart.",
+    a: "Drip coffee, brewed on site from a medium-roast house blend roasted weekly in NYC. Decaf on request. Cups with lids and sleeves, creamer, sugar, sweeteners, stirrers and napkins are included.",
   },
   {
-    q: "How far in advance should I book?",
-    a: "Two weeks or more is ideal, but send the request even if your event is sooner and we'll tell you if we can make it.",
+    q: "How far in advance should we book?",
+    a: "Two weeks or more is ideal, and earlier for large events. Send the request even if your event is sooner and we'll tell you if we can make it.",
   },
   {
     q: "Where do you cater?",
-    a: "We cater events across New York City. If your event is outside the city, send a request anyway and tell us where.",
-  },
-  {
-    q: "Can I get coffee from you outside of events?",
-    a: "Not yet. A Vibe Coded storefront with a coffee-a-day membership is coming soon. Join the list on this page and your first month is free when we launch.",
+    a: "We cater offices and event venues in all five boroughs of New York City. If your event is outside the city, send a request anyway and tell us where.",
   },
 ];

@@ -2,12 +2,11 @@ import Image from "next/image";
 import { Icon } from "@/components/Icons";
 import { LoopVideo } from "@/components/LoopVideo";
 import { BookingForm } from "@/components/BookingForm";
-import { WaitlistForm } from "@/components/WaitlistForm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { eventPagePath, eventPages } from "@/lib/event-pages";
 import { images, mediaSrc, videos } from "@/lib/media";
 import { buildJsonLd } from "@/lib/schema";
-import { audiences, bookingSteps, catering, craft, faqs, offer, services, site } from "@/lib/site";
+import { audiences, bookingSteps, catering, craft, faqs, packages, packagesNote, services, site } from "@/lib/site";
 
 export default function Home() {
   const jsonLd = buildJsonLd();
@@ -40,17 +39,17 @@ export default function Home() {
           />
           <div className="container hero__inner">
             <div className="hero__copy">
-              <p className="kicker">Good coffee<br />Better builders</p>
+              <p className="kicker">Enterprise coffee catering<br />New York City</p>
               <h1 id="hero-title">
-                <span className="hero__title">Fuel for what&apos;s next</span>
+                <span className="hero__title">Coffee catering for teams that build</span>
                 <span className="hero__sub">
-                  Coffee catering for tech events in {site.serviceArea}. We brew drip coffee on site at hackathons,
-                  meetups, demo days and offsites, then pack everything out when you&apos;re done.
+                  A staffed coffee station, brewed on site at your office or venue anywhere in {site.serviceArea}. For
+                  all-hands, client events, conferences, trainings and offsites. Packages from $500.
                 </span>
               </h1>
               <div className="hero__actions">
-                <a href="#book" className="btn">Book us for your event <Icon name="arrow" size={16} /></a>
-                <a href="#waitlist" className="btn btn--ghost">Storefront coming soon</a>
+                <a href="#book" className="btn">Get a quote <Icon name="arrow" size={16} /></a>
+                <a href="#packages" className="btn btn--ghost">See packages</a>
               </div>
             </div>
           </div>
@@ -61,11 +60,11 @@ export default function Home() {
           <div className="container">
             <h2 id="facts-title" className="sr-only">Vibe Coded Coffee at a glance</h2>
             <dl className="facts__list">
-              <div><dt>What</dt><dd>Drip coffee catering for tech events</dd></div>
-              <div><dt>Where</dt><dd>Across {site.serviceArea}</dd></div>
-              <div><dt>For</dt><dd>Hackathons, meetups, demo days, offsites</dd></div>
-              <div><dt>Pricing</dt><dd>Quote by the next business day</dd></div>
-              <div><dt>Coming soon</dt><dd>Our own storefront, {offer.short.toLowerCase()}</dd></div>
+              <div><dt>What</dt><dd>Staffed coffee station, brewed on site</dd></div>
+              <div><dt>Where</dt><dd>Offices and venues in all five boroughs</dd></div>
+              <div><dt>For</dt><dd>All-hands, client events, conferences, offsites</dd></div>
+              <div><dt>Pricing</dt><dd>From $500 for 25 guests</dd></div>
+              <div><dt>Quotes</dt><dd>Written quote by the next business day</dd></div>
             </dl>
           </div>
         </section>
@@ -76,8 +75,8 @@ export default function Home() {
             <div className="split-head">
               <h2 id="craft-title" className="h2">From bean to cup</h2>
               <p className="lede">
-                We&apos;re a small team in Brooklyn. Our house blend is a medium roast from Brooklyn Coffee, roasted weekly
-                in NYC, ground the morning of your event and brewed on site.
+                We&apos;re a Brooklyn-based team. Our house blend is a medium roast from Brooklyn Coffee, roasted weekly
+                in NYC, ground the day of your event and brewed on site at your office or venue.
               </p>
             </div>
 
@@ -126,8 +125,8 @@ export default function Home() {
             <div className="split-head">
               <h2 id="services-title" className="h2">What&apos;s included</h2>
               <p className="lede">
-                Every booking includes the coffee and everything that goes with it. Staffed bookings include one of
-                us behind the table.
+                Every booking includes the coffee, everything that goes with it and one of us behind the table, with
+                paperwork that works for your finance team.
               </p>
             </div>
             <ul className="perks">
@@ -139,6 +138,33 @@ export default function Home() {
                 </li>
               ))}
             </ul>
+          </div>
+        </section>
+
+        {/* ── Packages ───────────────────────────── */}
+        <section className="section section--white" id="packages" aria-labelledby="packages-title">
+          <div className="container">
+            <div className="split-head">
+              <h2 id="packages-title" className="h2">Packages</h2>
+              <p className="lede">{packagesNote}</p>
+            </div>
+            <ul className="packages">
+              {packages.map((p) => (
+                <li key={p.name} className="package">
+                  <h3>{p.name}</h3>
+                  <p className="package__price">${p.price.toLocaleString("en-US")}</p>
+                  <p className="package__meta">Up to {p.guests} guests · {p.hours} hours staffed</p>
+                  <p className="package__fits">{p.fits}</p>
+                </li>
+              ))}
+              <li className="package package--custom">
+                <h3>Enterprise</h3>
+                <p className="package__price">Custom quote</p>
+                <p className="package__meta">100+ guests, multi-day or recurring</p>
+                <p className="package__fits">Conferences, weekly all-hands, training series</p>
+              </li>
+            </ul>
+            <p className="packages__cta"><a href="#book" className="btn">Get a quote <Icon name="arrow" size={16} /></a></p>
           </div>
         </section>
 
@@ -155,15 +181,15 @@ export default function Home() {
               />
             </div>
             <div className="space__copy">
-              <p className="kicker kicker--blue">Built for builders</p>
-              <h2 id="space-title" className="h2 h2--light">Coffee that keeps up with your event</h2>
+              <p className="kicker kicker--blue">Built for busy teams</p>
+              <h2 id="space-title" className="h2 h2--light">Coffee that keeps up with your agenda</h2>
               <p className="lede lede--light">
-                A hackathon can kick off at 9 a.m. and wrap with demos the next evening. We plan coffee by the day
-                and brew in small batches, so the cup at 2 a.m. isn&apos;t left over from breakfast.
+                Registration at 8:30, a keynote at 9, breakout sessions after lunch. We plan batches around your
+                schedule so the line stays short and the last cup is as fresh as the first.
               </p>
               <ul className="pills" aria-label="Events we cater">
                 {audiences.map((a) => {
-                  const page = eventPages.find((p) => p.eventType.toLowerCase() === a.toLowerCase().replace(/s$/, ""));
+                  const page = eventPages.find((p) => p.pills?.includes(a) || p.eventType.toLowerCase() === a.toLowerCase().replace(/s$/, ""));
                   return <li key={a}>{page ? <a href={eventPagePath(page.slug)}>{a}</a> : a}</li>;
                 })}
               </ul>
@@ -191,8 +217,8 @@ export default function Home() {
         <section className="section section--cream" id="book" aria-labelledby="book-title">
           <div className="container book">
             <div>
-              <p className="kicker kicker--blue">Book us</p>
-              <h2 id="book-title" className="h2">Book us for your event</h2>
+              <p className="kicker kicker--blue">Request a quote</p>
+              <h2 id="book-title" className="h2">Get a quote</h2>
               <p className="lede">{catering.summary}</p>
               <p className="book__contact">
                 Prefer email? Write to <a href={`mailto:${site.email}`}>{site.email}</a>
@@ -222,8 +248,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Storefront coming soon ──────────────── */}
-        <section className="cta soon" id="waitlist" aria-labelledby="cta-title">
+        {/* ── Closing CTA ────────────────────────── */}
+        <section className="cta" id="cta" aria-labelledby="cta-title">
           <Image
             className="cta__bg"
             src={mediaSrc(images.heroCafe.file)}
@@ -233,10 +259,10 @@ export default function Home() {
             sizes="100vw"
           />
           <div className="container container--narrow cta__inner">
-            <p className="kicker kicker--blue">Coming soon</p>
-            <h2 id="cta-title" className="h2 h2--light">{offer.headline}</h2>
-            <p className="lede lede--light">{offer.summary}</p>
-            <WaitlistForm source="footer" tone="dark" />
+            <p className="kicker kicker--blue">Planning an event?</p>
+            <h2 id="cta-title" className="h2 h2--light">Your next all-hands deserves better coffee.</h2>
+            <p className="lede lede--light">{catering.summary}</p>
+            <p className="cta__actions"><a href="#book" className="btn">Get a quote <Icon name="arrow" size={16} /></a></p>
           </div>
         </section>
       </main>

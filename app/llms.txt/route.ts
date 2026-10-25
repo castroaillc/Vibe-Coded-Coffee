@@ -1,7 +1,7 @@
 import { GUIDE_PATH } from "@/components/SiteChrome";
 import { planCoffee } from "@/lib/coffee-plan";
 import { eventPagePath, eventPages } from "@/lib/event-pages";
-import { audiences, bookingSteps, catering, faqs, offer, services, site } from "@/lib/site";
+import { audiences, bookingSteps, buyers, catering, faqs, packages, packagesNote, services, site } from "@/lib/site";
 
 // /llms.txt — a plain-text summary written for AI assistants and answer engines.
 export const dynamic = "force-static";
@@ -13,15 +13,21 @@ export function GET() {
 
 ## Key facts
 - Name: ${site.name}
-- What: ${catering.name} (drip coffee)
-- Where: ${site.serviceArea}, based in ${site.locationLabel}
+- What: ${catering.name}: a staffed drip-coffee station, brewed on site at the client's office or venue
+- Where: offices and venues in all five boroughs of ${site.serviceArea}; based in ${site.locationLabel}
 - Events: ${audiences.join(", ")}
-- Pricing: custom quote, reply within one business day
+- Booked by: ${buyers.join(", ")}
+- Pricing: from $${packages[0].price} (up to ${packages[0].guests} guests); written quote within one business day
 - Tagline: ${site.tagline}
-- Coming soon: ${offer.summary}
+- Not currently offered: drop-off coffee, a storefront or daily office coffee service
 - Website: ${site.url}
 - Contact: ${site.email}
 - Last updated: ${site.lastUpdated}
+
+## Packages
+${packages.map((p) => `- ${p.name}: $${p.price.toLocaleString("en-US")}, up to ${p.guests} guests, ${p.hours} hours staffed (${p.fits.toLowerCase()})`).join("\n")}
+- Enterprise: custom quote for 100+ guests, multi-day or recurring events
+${packagesNote}
 
 ## What's included
 ${services.map((p) => `- ${p.title}: ${p.body}`).join("\n")}
@@ -42,12 +48,12 @@ Calculator: ${site.url}${GUIDE_PATH}
 ${faqs.map((f) => `### ${f.q}\n${f.a}`).join("\n\n")}
 
 ## Links
-- [Book us for your event](${site.url}/#book)
-- [Coffee catering for tech events in NYC](${site.url}/coffee-catering)
+- [Request a quote](${site.url}/#book)
+- [Packages](${site.url}/#packages)
+- [Coffee catering by event type](${site.url}/coffee-catering)
 ${eventPages.map((p) => `- [${p.name}](${site.url}${eventPagePath(p.slug)})`).join("\n")}
 - [How much coffee for an event (calculator)](${site.url}${GUIDE_PATH})
 - [What's included](${site.url}/#services)
-- [Storefront waitlist](${site.url}/#waitlist)
 - [FAQ](${site.url}/#faq)
 `;
   return new Response(body, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
