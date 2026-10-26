@@ -1,4 +1,4 @@
-type IconName = "cup" | "laptop" | "people" | "bulb" | "arrow";
+type IconName = "cup" | "laptop" | "people" | "bulb" | "arrow" | "check";
 
 const paths: Record<IconName, React.ReactNode> = {
   cup: (
@@ -30,6 +30,7 @@ const paths: Record<IconName, React.ReactNode> = {
     </>
   ),
   arrow: <path d="M4 12h15M13 6l6 6-6 6" />,
+  check: <path d="M5 12.5l4.5 4.5L19 7.5" />,
 };
 
 export function Icon({ name, size = 24 }: { name: IconName; size?: number }) {

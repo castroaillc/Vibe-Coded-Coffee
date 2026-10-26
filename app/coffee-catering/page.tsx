@@ -7,7 +7,7 @@ import { bookingSteps, catering, site } from "@/lib/site";
 
 const title = "Coffee Catering for Tech Events in NYC";
 const description =
-  "Coffee catering for NYC tech events: hackathons, meetups, conferences, demo days and offsites. Drip coffee brewed on site. Quote by the next business day.";
+  "Coffee catering for NYC tech events: hackathons, meetups, conferences, demo days and offsites. Drip coffee brewed on site. From $450, all-in, priced instantly.";
 
 export const metadata: Metadata = {
   title,
@@ -44,7 +44,7 @@ export default function CoffeeCatering() {
               offsites. {catering.summary}
             </p>
             <div className="page-hero__actions">
-              <Link className="btn" href="/#book">Get a quote</Link>
+              <Link className="btn" href="/#pricing">See my price</Link>
               <Link className="btn btn--ghost" href={GUIDE_PATH}>Coffee calculator</Link>
             </div>
           </div>

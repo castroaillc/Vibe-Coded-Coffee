@@ -2,12 +2,14 @@ import Image from "next/image";
 import { Icon } from "@/components/Icons";
 import { LoopVideo } from "@/components/LoopVideo";
 import { BookingForm } from "@/components/BookingForm";
+import { PricingSection } from "@/components/PricingSection";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { eventPagePath, eventPages } from "@/lib/event-pages";
 import { images, mediaSrc, videos } from "@/lib/media";
 import { buildJsonLd } from "@/lib/schema";
-import { audiences, bookingSteps, catering, craft, faqs, offer, services, site } from "@/lib/site";
+import { audiences, bookingSteps, catering, craft, faqs, offer, services, site, whyUs } from "@/lib/site";
+import { startingPrice, usd } from "@/lib/packages";
 
 export default function Home() {
   const jsonLd = buildJsonLd();
@@ -40,18 +42,23 @@ export default function Home() {
           />
           <div className="container hero__inner">
             <div className="hero__copy">
-              <p className="kicker">Good coffee<br />Better builders</p>
+              <p className="kicker">Coffee catering<br />for NYC tech events</p>
               <h1 id="hero-title">
                 <span className="hero__title">Fuel for what&apos;s next</span>
                 <span className="hero__sub">
-                  Coffee catering for tech events in {site.serviceArea}. We brew drip coffee on site at hackathons,
-                  meetups, demo days and offsites, then pack everything out when you&apos;re done.
+                  Drip coffee brewed on site at hackathons, meetups, demo days and offsites across {site.serviceArea}.
+                  From {usd(startingPrice)}, all-in. See your exact price in seconds, no quote call.
                 </span>
               </h1>
               <div className="hero__actions">
-                <a href="#book" className="btn">Book us for your event <Icon name="arrow" size={16} /></a>
-                <a href="#waitlist" className="btn btn--ghost">Storefront coming soon</a>
+                <a href="#pricing" className="btn">See my price <Icon name="arrow" size={16} /></a>
+                <a href="#book" className="btn btn--ghost">Check my date</a>
               </div>
+              <ul className="hero__proof" aria-label="Why organizers book us">
+                <li>From {usd(startingPrice)} all-in</li>
+                <li>No travel fees in NYC</li>
+                <li>Founder at every event</li>
+              </ul>
             </div>
           </div>
         </section>
@@ -64,9 +71,32 @@ export default function Home() {
               <div><dt>What</dt><dd>Drip coffee catering for tech events</dd></div>
               <div><dt>Where</dt><dd>Across {site.serviceArea}</dd></div>
               <div><dt>For</dt><dd>Hackathons, meetups, demo days, offsites</dd></div>
-              <div><dt>Pricing</dt><dd>Quote by the next business day</dd></div>
-              <div><dt>Coming soon</dt><dd>Our own storefront, {offer.short.toLowerCase()}</dd></div>
+              <div><dt>Pricing</dt><dd>From {usd(startingPrice)}, published and all-in</dd></div>
+              <div><dt>Booking</dt><dd>Instant price, date confirmed in 1 business day</dd></div>
             </dl>
+          </div>
+        </section>
+
+        <PricingSection />
+
+        {/* ── Why us ─────────────────────────────── */}
+        <section className="section section--cream" id="why" aria-labelledby="why-title">
+          <div className="container">
+            <div className="split-head">
+              <h2 id="why-title" className="h2">Why tech teams book us</h2>
+              <p className="lede">
+                Big coffee-cart companies cater weddings, churches and trade shows. We only do tech events, and it shows in
+                how we plan, price and staff them.
+              </p>
+            </div>
+            <ul className="perks">
+              {whyUs.map((w) => (
+                <li key={w.title} className="perk">
+                  <h3>{w.title}</h3>
+                  <p>{w.body}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 

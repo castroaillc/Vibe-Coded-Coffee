@@ -4,15 +4,19 @@
 //  data (JSON-LD) and llms.txt all read from it.
 // ─────────────────────────────────────────────────────────────
 
+import { packages, pricingSummary, startingPrice, usd } from "./packages";
+
+const starter = packages[0];
+
 export const site = {
   name: "Vibe Coded Coffee",
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://vibecodedcoffee.com").replace(/\/$/, ""),
   tagline: "Good coffee. Better builders.",
   description:
-    "Vibe Coded Coffee is a Brooklyn coffee caterer for tech events in New York City. We brew drip coffee on site at hackathons, meetups, demo days, conferences and team offsites, using a medium-roast house blend roasted weekly in NYC. Send your date, venue and headcount for a quote.",
+    `Vibe Coded Coffee is a Brooklyn coffee caterer for tech events in New York City. We brew drip coffee on site at hackathons, meetups, demo days, conferences and team offsites, using a medium-roast house blend roasted weekly in NYC. Prices are published: packages start at ${usd(startingPrice)} for up to ${starter.maxGuests} guests, all-in, with no travel fees in the five boroughs.`,
   /** Search-result snippet: keep under ~155 characters. */
   metaDescription:
-    "Drip coffee brewed on site for NYC hackathons, meetups, demo days and offsites by a Brooklyn team. Send your headcount, get a quote next business day.",
+    `Coffee catering for NYC tech events from ${usd(startingPrice)}, all-in. See your price instantly: drip coffee brewed on site for hackathons, meetups and demo days.`,
   city: "Brooklyn",
   region: "NY",
   country: "US",
@@ -26,7 +30,7 @@ export const site = {
   social: {
     instagram: "https://www.instagram.com/vibecodedcoffee",
   },
-  lastUpdated: "2026-10-21",
+  lastUpdated: "2026-10-26",
 } as const;
 
 /** The B2B catering offer: what event organizers book. */
@@ -35,7 +39,7 @@ export const catering = {
   short: "Coffee catering for tech events",
   headline: "Coffee for the people building the future.",
   summary:
-    "Drip coffee for hackathons, meetups, demo days and offsites anywhere in New York City. Send the date, venue and headcount and you'll have a price by the next business day.",
+    "Drip coffee for hackathons, meetups, demo days and offsites anywhere in New York City. Your price is on this page; send the date and venue and we'll confirm within one business day.",
 };
 
 /** Kinds of event on the booking form (also accepted by /api/booking). */
@@ -72,10 +76,18 @@ export const craft = [
 ];
 
 export const bookingSteps = [
-  { title: "Tell us about your event", body: "Date, location and headcount. It takes a minute and there's no commitment." },
-  { title: "Get a quote", body: "We reply within one business day with a price and what's included." },
-  { title: "We bring the coffee", body: "We arrive early, set up the station, keep it full and clean up after." },
+  { title: "See your price", body: "Enter your headcount and how long you need coffee. The price shows up right away, all-in." },
+  { title: "Hold your date", body: "Add the date and venue. No card, no deposit to request. We confirm within one business day." },
+  { title: "We bring the coffee", body: "We arrive early, set up the station, keep it full and pack everything out after." },
 ];
+
+/** Why organizers pick us over a generic coffee cart. Keep every line true. */
+export const whyUs = [
+  { title: "The price is on the page", body: `Most caterers make you fill out a form and wait for a quote. Ours starts at ${usd(startingPrice)} for ${starter.maxGuests} guests, and the calculator shows your exact number before you talk to anyone.` },
+  { title: "Built for tech events", body: "Hackathons that run overnight, keynotes at 9, demo days that run long. We plan coffee around your schedule, hour by hour, not a generic wedding-and-party setup." },
+  { title: "The founder runs your station", body: "Steven, who started Vibe Coded Coffee, brews at every event. You deal with one person from booking to cleanup, not a rotating crew." },
+  { title: "Short notice is fine", body: "Event in a few days? Send the request anyway. If we can make it, we'll tell you within one business day." },
+] as const;
 
 export const audiences = ["Hackathons", "Meetups", "Demo days", "Conferences", "Team offsites", "Launch parties"];
 
@@ -94,8 +106,16 @@ export const faqs = [
     a: "Vibe Coded Coffee is a coffee catering company for tech events in New York City. We bring freshly brewed drip coffee to hackathons, meetups, demo days, conferences and team offsites, and handle setup and cleanup.",
   },
   {
+    q: "How much does coffee catering cost?",
+    a: `Our prices are published and all-in: ${pricingSummary} Staff, coffee, cups, creamer, sugar, setup and cleanup are included in every price.`,
+  },
+  {
     q: "How do I book Vibe Coded Coffee for my event?",
-    a: "Fill in the booking form on this page with your event date, location and headcount. We reply within one business day with a quote.",
+    a: "Use the instant-price calculator on this page, then add your date, venue and contact details. There's no card or deposit to request a date. We confirm within one business day.",
+  },
+  {
+    q: "Are there any extra fees?",
+    a: "No travel fees anywhere in the five boroughs, and coffee is unlimited during your service window. The only extras are added hours, which the calculator shows before you book.",
   },
   {
     q: "Do you cater hackathons?",

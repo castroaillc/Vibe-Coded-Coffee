@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BookingForm } from "@/components/BookingForm";
+import { PricingSection } from "@/components/PricingSection";
+import { instantQuote, usd } from "@/lib/packages";
 import { GUIDE_PATH, SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { planCoffee } from "@/lib/coffee-plan";
 import { eventPagePath, eventPages, findEventPage } from "@/lib/event-pages";
@@ -29,6 +31,10 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
   const path = eventPagePath(page.slug);
   const plural = `${page.eventType.toLowerCase()}s`;
   const example = planCoffee(page.exampleGuests, page.exampleDays);
+  // Hackathons and multi-day events default to all-day service in the price calculator.
+  const allDayDays = page.eventType === "Hackathon" || page.exampleDays > 1 ? page.exampleDays : 0;
+  const defaultLength = allDayDays ? `day${allDayDays}` : page.exampleGuests > 50 ? "4" : "3";
+  const examplePrice = instantQuote({ guests: page.exampleGuests, hours: Number(defaultLength) || 0, allDayDays });
   const sizes = [page.exampleGuests / 2, page.exampleGuests, page.exampleGuests * 2].map((g) => planCoffee(Math.round(g), page.exampleDays));
   // Page FAQ plus the general ones every organizer asks (booking lead time, service area).
   const faqs = [...page.faqs, ...generalFaqs.filter((f) => /advance|Where do you cater/.test(f.q))];
@@ -57,8 +63,15 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
             <p className="kicker kicker--blue">Coffee catering · New York City</p>
             <h1 id="page-title" className="page-hero__title">{page.h1}</h1>
             <p className="lede lede--light page-hero__answer">{page.answer}</p>
+            {examplePrice && (
+              <p className="lede lede--light page-hero__answer">
+                <strong>Example:</strong> {page.exampleGuests} guests
+                {allDayDays ? `, ${allDayDays === 1 ? "one full day" : `${allDayDays} full days`}` : ""} is{" "}
+                <strong>{usd(examplePrice.price)}</strong> all-in ({usd(examplePrice.perGuest, true)} per guest{allDayDays ? " per day" : ""}).
+              </p>
+            )}
             <div className="page-hero__actions">
-              <a className="btn" href="#book">Get a quote</a>
+              <a className="btn" href="#pricing">See my price</a>
               <Link className="btn btn--ghost" href={GUIDE_PATH}>How much coffee do I need?</Link>
             </div>
           </div>
@@ -103,12 +116,14 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
           </div>
         </section>
 
+        <PricingSection title={`${page.eventType} pricing`} defaultGuests={page.exampleGuests} defaultLength={defaultLength} />
+
         <section className="section section--cream" id="book" aria-labelledby="book-title">
           <div className="container book">
             <div>
-              <p className="kicker kicker--blue">Get a quote</p>
+              <p className="kicker kicker--blue">Book us</p>
               <h2 id="book-title" className="h2">Book coffee for your {page.eventType.toLowerCase()}</h2>
-              <p className="lede">Tell us the date, venue and headcount. We reply within one business day with a price and what&apos;s included.</p>
+              <p className="lede">Your price is above. Add the date and venue and we&apos;ll confirm within one business day. No card or deposit to request.</p>
               <p className="book__contact">Prefer email? Write to <a href={`mailto:${site.email}`}>{site.email}</a></p>
             </div>
             <BookingForm defaultEventType={page.eventType} />

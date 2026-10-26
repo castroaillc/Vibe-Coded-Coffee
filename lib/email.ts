@@ -96,8 +96,8 @@ export async function sendBookingReceived(email: string, name: string, eventDate
     email,
     "We got your Vibe Coded Coffee booking request",
     layout(`<p style="margin:0 0 12px;font-size:16px">Hi ${esc(first)},</p>
-<p style="margin:0 0 12px;font-size:16px;line-height:1.5">Thanks for thinking of us for your event on ${longDate(eventDate)}. We'll call you shortly to go over the details and your quote.</p>
+<p style="margin:0 0 12px;font-size:16px;line-height:1.5">Thanks for thinking of us for your event on ${longDate(eventDate)}. We'll confirm your date and price within one business day.</p>
 <p style="margin:0;font-size:16px;line-height:1.5">Anything to add? Just reply to this email.</p>`),
-    `Hi ${first},\n\nThanks for thinking of us for your event on ${longDate(eventDate)}. We'll call you shortly to go over the details and your quote.\n\nAnything to add? Just reply to this email.`,
+    `Hi ${first},\n\nThanks for thinking of us for your event on ${longDate(eventDate)}. We'll confirm your date and price within one business day.\n\nAnything to add? Just reply to this email.`,
   );
 }

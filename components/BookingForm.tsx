@@ -1,9 +1,10 @@
 "use client";
 
 import { track } from "@vercel/analytics";
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { eventTypes, site } from "@/lib/site";
 import { Icon } from "./Icons";
+import { QUOTE_EVENT, type QuoteHandoff } from "./InstantQuote";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -13,6 +14,27 @@ export function BookingForm({ defaultEventType = "" }: { defaultEventType?: stri
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
   const today = new Date().toLocaleDateString("en-CA");
+  const formRef = useRef<HTMLFormElement>(null);
+  const [quote, setQuote] = useState<QuoteHandoff | null>(null);
+
+  // "Book this price" in the instant-price calculator fills in headcount, event type and the price.
+  useEffect(() => {
+    function onQuote(e: Event) {
+      const q = (e as CustomEvent<QuoteHandoff>).detail;
+      setQuote(q);
+      const form = formRef.current;
+      if (!form) return;
+      const set = (name: string, value: string) => {
+        const el = form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | null;
+        if (el && value) el.value = value;
+      };
+      set("headcount", String(q.guests));
+      set("eventType", q.eventType);
+      form.querySelector<HTMLInputElement>("input[name=name]")?.focus({ preventScroll: true });
+    }
+    window.addEventListener(QUOTE_EVENT, onQuote);
+    return () => window.removeEventListener(QUOTE_EVENT, onQuote);
+  }, []);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,8 +50,9 @@ export function BookingForm({ defaultEventType = "" }: { defaultEventType?: stri
       });
       const json = (await res.json().catch(() => ({}))) as { error?: string };
       if (!res.ok) throw new Error(json.error || "Something went wrong. Please try again.");
-      track("Booking request", { eventType: String(data.eventType || "unspecified"), headcount: Number(data.headcount) || 0 });
+      track("Booking request", { eventType: String(data.eventType || "unspecified"), headcount: Number(data.headcount) || 0, quoted: quote ? quote.price : 0 });
       setStatus("success");
+      setQuote(null);
       form.reset();
     } catch (err) {
       setStatus("error");
@@ -41,14 +64,20 @@ export function BookingForm({ defaultEventType = "" }: { defaultEventType?: stri
     return (
       <div className="booking-done" role="status" aria-live="polite">
         <p className="booking-done__title">Request received.</p>
-        <p>Thanks! We&apos;ll call you shortly to talk through your event and quote. Check your inbox for a confirmation.</p>
+        <p>Thanks! We&apos;ll confirm your date and price within one business day. Check your inbox for a confirmation.</p>
       </div>
     );
   }
 
   const f = (name: string) => `${id}-${name}`;
   return (
-    <form className="booking" onSubmit={onSubmit}>
+    <form className="booking" onSubmit={onSubmit} ref={formRef}>
+      {quote && (
+        <p className="booking__quote">
+          <strong>{quote.summary}</strong> Add your details and we&apos;ll lock in this price.
+          <input type="hidden" name="quote" value={quote.summary} />
+        </p>
+      )}
       <div className="booking__grid">
         <div className="booking__field">
           <label htmlFor={f("name")}>Your name</label>
@@ -97,11 +126,11 @@ export function BookingForm({ defaultEventType = "" }: { defaultEventType?: stri
       </div>
       <div className="booking__actions">
         <button type="submit" className="btn" disabled={status === "loading"}>
-          {status === "loading" ? "Sending…" : "Request a quote"}
+          {status === "loading" ? "Sending…" : quote ? "Hold my date" : "Check my date"}
           <Icon name="arrow" size={16} />
         </button>
         <p className="booking__note" aria-live="polite">
-          {status === "error" ? <span className="booking__error">{message}</span> : "No commitment. We'll call you shortly."}
+          {status === "error" ? <span className="booking__error">{message}</span> : "No commitment, no card. We confirm within one business day."}
         </p>
       </div>
       <p className="booking__consent">
