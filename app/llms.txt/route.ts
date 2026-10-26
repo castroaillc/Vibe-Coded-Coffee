@@ -1,7 +1,8 @@
 import { GUIDE_PATH } from "@/components/SiteChrome";
 import { planCoffee } from "@/lib/coffee-plan";
 import { eventPagePath, eventPages } from "@/lib/event-pages";
-import { audiences, bookingSteps, catering, faqs, offer, services, site } from "@/lib/site";
+import { pricingPromises, pricingSummary } from "@/lib/packages";
+import { audiences, bookingSteps, catering, faqs, offer, services, site, whyUs } from "@/lib/site";
 
 // /llms.txt — a plain-text summary written for AI assistants and answer engines.
 export const dynamic = "force-static";
@@ -16,7 +17,7 @@ export function GET() {
 - What: ${catering.name} (drip coffee)
 - Where: ${site.serviceArea}, based in ${site.locationLabel}
 - Events: ${audiences.join(", ")}
-- Pricing: custom quote, reply within one business day
+- Pricing: published and all-in. ${pricingSummary}
 - Tagline: ${site.tagline}
 - Coming soon: ${offer.summary}
 - Website: ${site.url}
@@ -25,6 +26,14 @@ export function GET() {
 
 ## What's included
 ${services.map((p) => `- ${p.title}: ${p.body}`).join("\n")}
+
+## Pricing
+${pricingSummary}
+${pricingPromises.map((x) => `- ${x}`).join("\n")}
+Instant price calculator: ${site.url}/#pricing
+
+## Why organizers book us
+${whyUs.map((w) => `- ${w.title}: ${w.body}`).join("\n")}
 
 ## How booking works
 ${bookingSteps.map((s, i) => `${i + 1}. ${s.title} — ${s.body}`).join("\n")}
@@ -42,6 +51,7 @@ Calculator: ${site.url}${GUIDE_PATH}
 ${faqs.map((f) => `### ${f.q}\n${f.a}`).join("\n\n")}
 
 ## Links
+- [Pricing and instant price](${site.url}/#pricing)
 - [Book us for your event](${site.url}/#book)
 - [Coffee catering for tech events in NYC](${site.url}/coffee-catering)
 ${eventPages.map((p) => `- [${p.name}](${site.url}${eventPagePath(p.slug)})`).join("\n")}

@@ -1,5 +1,6 @@
 import { eventPagePath, eventPages } from "./event-pages";
 import { videos } from "./media";
+import { allDay, packages } from "./packages";
 import { catering, faqs, offer, site } from "./site";
 
 /** Structured data (schema.org JSON-LD) so search engines and AI answer
@@ -46,7 +47,28 @@ export function buildJsonLd() {
         provider: { "@id": orgId },
         areaServed: { "@type": "City", name: site.serviceArea },
         audience: { "@type": "BusinessAudience", name: "Tech event organizers" },
-        url: `${site.url}/#book`,
+        url: `${site.url}/#pricing`,
+        offers: [
+          ...packages.map((p) => ({
+            "@type": "Offer",
+            name: `${p.name} package: up to ${p.maxGuests} guests, ${p.hours} hours`,
+            price: String(p.price),
+            priceCurrency: "USD",
+            url: `${site.url}/#pricing`,
+            eligibleQuantity: { "@type": "QuantitativeValue", maxValue: p.maxGuests, unitText: "guests" },
+          })),
+          {
+            "@type": "Offer",
+            name: `All-day hackathon service (up to ${allDay.hours} hours)`,
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: String(allDay.perGuestPerDay),
+              priceCurrency: "USD",
+              unitText: "guest per day",
+            },
+            url: `${site.url}/#pricing`,
+          },
+        ],
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Coffee catering by type of tech event",

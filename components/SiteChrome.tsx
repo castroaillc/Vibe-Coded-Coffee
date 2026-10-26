@@ -15,13 +15,14 @@ export function SiteHeader() {
         </Link>
         <nav aria-label="Main">
           <ul className="nav__links">
+            <li><Link href="/#pricing">Pricing</Link></li>
             <li><Link href="/coffee-catering">Events we cater</Link></li>
             <li><Link href="/#services">What&apos;s included</Link></li>
             <li><Link href={GUIDE_PATH}>Coffee calculator</Link></li>
             <li><Link href="/#faq">FAQ</Link></li>
           </ul>
         </nav>
-        <Link href="/#book" className="btn btn--ghost btn--sm">Book us</Link>
+        <Link href="/#pricing" className="btn btn--ghost btn--sm">See my price</Link>
       </div>
     </header>
   );
@@ -46,7 +47,7 @@ export function SiteFooter() {
         <noscript>
           <p className="footer__small">
             <a href="/">Home</a> · <a href="/coffee-catering">Coffee catering</a> · <a href="/coffee-catering/hackathons">Hackathons</a> ·{" "}
-            <a href="/#book">Book us</a> · <a href={GUIDE_PATH}>Coffee calculator</a> · <a href="/llms.txt">llms.txt</a>
+            <a href="/#pricing">Pricing</a> · <a href="/#book">Book us</a> · <a href={GUIDE_PATH}>Coffee calculator</a> · <a href="/llms.txt">llms.txt</a>
           </p>
         </noscript>
         <p className="footer__small">© {new Date().getFullYear()} {site.name}. Last updated {site.lastUpdated}.</p>

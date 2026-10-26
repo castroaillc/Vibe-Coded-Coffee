@@ -53,7 +53,9 @@ export async function POST(req: Request) {
   const eventDate = clean(body.eventDate, 10);
   const headcount = Number.parseInt(clean(body.headcount, 6), 10);
   const location = clean(body.location, 200);
-  const notes = clean(body.notes, 2000) || null;
+  // The instant price the organizer saw on the site, if they came from the calculator.
+  const quoted = clean(body.quote, 200);
+  const notes = [quoted, clean(body.notes, 2000)].filter(Boolean).join("\n\n") || null;
 
   if (!name) return NextResponse.json({ error: "Please add your name." }, { status: 400 });
   if (!EMAIL_RE.test(email)) return NextResponse.json({ error: "Please enter a valid email address." }, { status: 400 });
